@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace GDGame
@@ -232,6 +233,8 @@ namespace GDGame
             //cameras - notice we moved the camera creation BELOW where we created the drawn content - see DriveController
             InitCameras3D();
 
+            //player
+            initPlayer();
             #region Debug
 #if DEBUG
             //debug info
@@ -240,6 +243,11 @@ namespace GDGame
             #endregion Debug
 
             base.Initialize();
+        }
+
+        private void initPlayer()
+        {
+            
         }
 
         private void InitGraphics(int width, int height)
@@ -464,6 +472,7 @@ namespace GDGame
         {
             //create the track to be applied to the non-collidable track camera 1
             railDictionary.Add("rail1", new RailParameters("rail1 - parallel to z-axis", new Vector3(20, 10, 50), new Vector3(20, 10, -50)));
+            railDictionary.Add("rail2", new RailParameters("rail2 - parallel to z-axis",  new Vector3(20, 10, -50), new Vector3(20, 10, 50)));
         }
 
         private void InitDictionaries()
@@ -740,9 +749,9 @@ namespace GDGame
             Transform3D transform3D = new Transform3D(new Vector3(0, 5, 0), Vector3.UnitZ, Vector3.UnitY);
             BoxCollisionPrimitive boxPrim = new BoxCollisionPrimitive(transform3D);
 
-            CollidablePrimitiveObject collPrimObj = new CollidablePrimitiveObject("id",
-                ActorType.CollidableDecorator, StatusType.Drawn, transform3D,
-                effectParameters, vertexData, boxPrim, this.objectManager);
+            //CollidablePrimitiveObject collPrimObj = new CollidablePrimitiveObject("id",
+            //    ActorType.CollidableDecorator, StatusType.Drawn, transform3D,
+            //    effectParameters, vertexData, boxPrim, this.objectManager);
 
             /************ Level-loader (can be collidable or non-collidable) ************/
 

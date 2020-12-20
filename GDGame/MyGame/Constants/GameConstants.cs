@@ -12,6 +12,15 @@ namespace GDGame
         //   public static readonly Keys[] KeysThree = { Keys.U, Keys.J, Keys.H, Keys.K };
         #endregion Common
 
+        #region Player
+        private static readonly float playerMoveSpeed = 1f;
+        private static readonly float playerStrafeSpeed = .3f;
+        private static readonly float playerCamOffsetX = 100;
+        private static readonly float playerCamOffsety = 100;
+        private static readonly Keys[] playerJumpButton = { Keys.Space };
+
+        #endregion Player
+
         #region String IDs
         public static readonly string Primitive_WireframeOriginHelper = "wireframe origin helper";
         public static readonly string Primitive_UnlitTexturedQuad = "unlit textured quad";
