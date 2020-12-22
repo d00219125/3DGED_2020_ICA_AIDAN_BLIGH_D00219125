@@ -175,6 +175,8 @@ namespace GDGame
             //ui
             textureDictionary.Load("Assets/Textures/UI/Controls/reticuleDefault");
 
+            //player
+
             //add more...
         }
 
@@ -191,7 +193,7 @@ namespace GDGame
 
         protected override void Initialize()
         {
-            float worldScale = 2000;
+            float worldScale = 1000;
             //set game title
             Window.Title = "My Amazing Game";
 
@@ -247,7 +249,11 @@ namespace GDGame
 
         private void initPlayer()
         {
-            
+            Transform3D transform3D = new Transform3D(GameConstants.playerStartPos,
+                new Vector3(0, 0, 0),
+                new Vector3(1, 1, 1),
+                Vector3.UnitZ,
+                Vector3.UnitY);
         }
 
         private void InitGraphics(int width, int height)
@@ -741,6 +747,8 @@ namespace GDGame
             //add grass plane
             InitGround(worldScale);
 
+            //adds walls
+            InitWalls();
             //pyramids
             InitDecorators();
 
@@ -781,6 +789,32 @@ namespace GDGame
                              new Vector3(-50, 0, -150) //offset to move all new objects by
                              );
             this.objectManager.Add(actorList);
+        }
+
+        private void InitWalls()
+        {
+            //left walls
+            for (int i = 0; i < 2; i++)
+            {
+                PrimitiveObject drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
+                drawnActor3D.ActorType = ActorType.Ground;
+                drawnActor3D.Transform3D.Translation = new Vector3(0 + (i * 100), 0 , 0 + (i * 100));
+                drawnActor3D.EffectParameters.Texture = textureDictionary["grass1"];
+                drawnActor3D.Transform3D.RotationInDegrees = GameConstants.wallRotationLeft; //new Vector3(0, 90, 0);
+                drawnActor3D.Transform3D.Scale = GameConstants.wallScale;//wallHeight * Vector3.One;
+                  objectManager.Add(drawnActor3D);
+            }
+            //right walls
+            for (int i = 0; i < 2; i++)
+            {
+                PrimitiveObject drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
+                drawnActor3D.ActorType = ActorType.Ground;
+                drawnActor3D.Transform3D.Translation = new Vector3(00 + (i * 100), 0, 00 + (i * 100));
+                drawnActor3D.EffectParameters.Texture = textureDictionary["grass1"];
+                drawnActor3D.Transform3D.RotationInDegrees = GameConstants.wallRotationRight; //new Vector3(0, 90, 0);
+                drawnActor3D.Transform3D.Scale = GameConstants.wallScale;//wallHeight * Vector3.One;
+                objectManager.Add(drawnActor3D);
+            }
         }
 
         /// <summary>

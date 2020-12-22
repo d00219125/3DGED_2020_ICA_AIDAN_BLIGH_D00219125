@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GDGame.MyGame.Controllers
 {
-    class ThirdPersonControler : Controller
+    class ThirdPersonBlockyController : Controller
     {
         #region fields
         private KeyboardManager keyboardManager;
@@ -21,7 +21,7 @@ namespace GDGame.MyGame.Controllers
         #endregion fields
 
         #region constructor
-        public ThirdPersonControler(string id, ControllerType controllerType, KeyboardManager keyboardManager,
+        public ThirdPersonBlockyController(string id, ControllerType controllerType, KeyboardManager keyboardManager,
             Camera3D camera3D, float movespeed, Keys[][] moveKeys) : base(id, controllerType) 
         {
             this.keyboardManager = keyboardManager;
@@ -34,15 +34,16 @@ namespace GDGame.MyGame.Controllers
 
         public override void Update(GameTime gameTime, IActor actor)
         {
+            Actor3D blocky = actor as Actor3D;
             if (actor != null) 
             {
-                HandleMovement(gameTime, actor);
-                HandleCamera(gameTime, actor);
+                HandleMovement(gameTime, blocky);
+                HandleCamera(gameTime, blocky);
             }
             base.Update(gameTime, actor);
         }
 
-        private void HandleMovement(GameTime gameTime, IActor actor)
+        private void HandleMovement(GameTime gameTime, Actor3D actor)
         {
             //think this might have to be collidable primitive object
             //PrimitiveObject character = actor as PrimitiveObject;
@@ -62,9 +63,11 @@ namespace GDGame.MyGame.Controllers
             character.Transform3D.TranslateBy(moveVector);
             //to do... check for collisions and do event stuff here
         }
-        private void HandleCamera(GameTime gameTime, IActor actor)
+        private void HandleCamera(GameTime gameTime, Actor3D actor)
         {
-            Vector3 playerPos = actor.Tra
+            Vector3 playerPos = actor.Transform3D.Translation;
+            playerPos.X += GameConstants.playerCamOffsetX;
+            playerPos.Y += GameConstants.playerCamOffsetY;
         }
     }
 }

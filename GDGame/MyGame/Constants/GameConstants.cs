@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace GDGame
 {
@@ -13,13 +14,20 @@ namespace GDGame
         #endregion Common
 
         #region Player
-        private static readonly float playerMoveSpeed = 1f;
-        private static readonly float playerStrafeSpeed = .3f;
-        private static readonly float playerCamOffsetX = 100;
-        private static readonly float playerCamOffsety = 100;
-        private static readonly Keys[] playerJumpButton = { Keys.Space };
+        public static readonly Vector3 playerStartPos = new Vector3(0, 0, 0);
+        public static readonly float playerMoveSpeed = 1f;
+        public static readonly float playerStrafeSpeed = .3f;
+        public static readonly float playerCamOffsetX = 100;
+        public static readonly float playerCamOffsetY = 100;
+        public static readonly Keys[] playerJumpButton = { Keys.Space };
 
         #endregion Player
+
+        #region Level
+        public static readonly Vector3 wallScale = new Vector3(100, 1000, 100);
+        public static readonly Vector3 wallRotationLeft = new Vector3(90, 0, 90);
+        public static readonly Vector3 wallRotationRight = new Vector3 (-270, -180, -90);
+        #endregion Level
 
         #region String IDs
         public static readonly string Primitive_WireframeOriginHelper = "wireframe origin helper";
