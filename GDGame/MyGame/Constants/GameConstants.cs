@@ -8,32 +8,17 @@ namespace GDGame
         #region Common
 
         private static readonly float strafeSpeedMultiplier = 0.75f;
-        public static readonly Keys[] KeysOne = { Keys.W, Keys.S, Keys.A, Keys.D };
+        public static readonly Keys[] KeysOne = { Keys.W, Keys.S, Keys.A, Keys.D, Keys.Space};
         public static readonly Keys[] KeysTwo = { Keys.U, Keys.J, Keys.H, Keys.K };
         //   public static readonly Keys[] KeysThree = { Keys.U, Keys.J, Keys.H, Keys.K };
         #endregion Common
-
-        #region Player
-        public static readonly Vector3 playerStartPos = new Vector3(0, 0, 0);
-        public static readonly float playerMoveSpeed = 1f;
-        public static readonly float playerStrafeSpeed = .3f;
-        public static readonly float playerCamOffsetX = 100;
-        public static readonly float playerCamOffsetY = 100;
-        public static readonly Keys[] playerJumpButton = { Keys.Space };
-
-        #endregion Player
-
-        #region Level
-        public static readonly Vector3 wallScale = new Vector3(100, 1000, 100);
-        public static readonly Vector3 wallRotationLeft = new Vector3(90, 0, 90);
-        public static readonly Vector3 wallRotationRight = new Vector3 (-270, -180, -90);
-        #endregion Level
 
         #region String IDs
         public static readonly string Primitive_WireframeOriginHelper = "wireframe origin helper";
         public static readonly string Primitive_UnlitTexturedQuad = "unlit textured quad";
         public static readonly string Primitive_LitTexturedQuad = "lit textured quad";
         public static readonly string Primitive_LitTexturedPyramid = "lit textured pyramid";
+        public static readonly string Primitive_LitTexturedCube = "lit textured cube";
 
         public static readonly string Effect_UnlitTextured = "unlit textured";
         public static readonly string Effect_LitTextured = "lit textured";
@@ -43,11 +28,14 @@ namespace GDGame
         public static readonly string Camera_NonCollidableFlight = "Noncollidable Flight";
         public static readonly string Camera_NonCollidableSecurity = "Noncollidable security";
         public static readonly string Camera_NonCollidableCurveMainArena = "Noncollidable curve - main arena";
+        public static readonly string Camera_CollidableThirdPerson = "Collidable Third Person";
 
-        public static readonly string Controllers_NonCollidableFirstPerson = "1st person controller A";
-        public static readonly string Controllers_NonCollidableFlight = "Flight controller A";
+        public static readonly string Controllers_NonCollidableFirstPerson = "1st person controller";
+        public static readonly string Controllers_NonCollidableFlight = "Flight controller";
         public static readonly string Controllers_NonCollidableSecurity = "pan controller";
         public static readonly string Controllers_NonCollidableCurveMainArena = "main arena - fly through - 1";
+        public static readonly string Controllers_CollidableThirdPerson = "3rd person controller";
+
         #endregion String IDs
 
         #region Collidable First Person Camera
@@ -99,5 +87,29 @@ namespace GDGame
         public static readonly float carRotateSpeed = 0.06f;
 
         #endregion Car
+
+        //#region Player
+        //Nials Stuff
+        //public static readonly float playerMoveSpeed = 0.05f;
+        //public static readonly float playerStrafeSpeed = strafeSpeedMultiplier * moveSpeed;
+        //public static readonly float playerRotateSpeed = 0.04f;
+        //public static readonly float playerCamOffsetX = 100f;
+        //public static readonly float playerCamOffsetY = 100f;
+        //#endregion Player
+
+        #region Player
+        public static readonly Vector3 playerStartPos = new Vector3(0, 0, 0);
+        public static readonly float playerMoveSpeed = .1f;
+        public static readonly float playerStrafeSpeed = .3f;
+        public static readonly float playerCamOffsetX = 100;
+        public static readonly float playerCamOffsetY = 100;
+        public static readonly Keys[] playerJumpButton = { Keys.Space };
+        #endregion Player
+
+        #region Level
+        public static readonly Vector3 wallScale = new Vector3(100, 1000, 100);
+        public static readonly Vector3 wallRotationLeft = new Vector3(90, 0, 90);
+        public static readonly Vector3 wallRotationRight = new Vector3(-270, -180, -90);
+        #endregion Level
     }
 }
