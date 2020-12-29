@@ -15,7 +15,7 @@ namespace GDLibrary.MyGame
     public class CollidablePlayerObject : CollidablePrimitiveObject
     {
         #region Fields
-        private float moveSpeed, rotationSpeed;
+        private float moveSpeed, strafeSpeed;
         private KeyboardManager keyboardManager;
         private Keys[] moveKeys;
         #endregion Fields
@@ -23,12 +23,12 @@ namespace GDLibrary.MyGame
         public CollidablePlayerObject(string id, ActorType actorType, StatusType statusType, Transform3D transform,
             EffectParameters effectParameters, IVertexData vertexData,
             ICollisionPrimitive collisionPrimitive, ObjectManager objectManager,
-            Keys[] moveKeys, float moveSpeed, float rotationSpeed, KeyboardManager keyboardManager)
+            Keys[] moveKeys, float moveSpeed, float strafeSpeed, KeyboardManager keyboardManager)
             : base(id, actorType, statusType, transform, effectParameters, vertexData, collisionPrimitive, objectManager)
         {
             this.moveKeys = moveKeys;
             this.moveSpeed = moveSpeed;
-            this.rotationSpeed = rotationSpeed;
+            this.strafeSpeed = strafeSpeed;
 
             //for movement
             this.keyboardManager = keyboardManager;
@@ -36,8 +36,10 @@ namespace GDLibrary.MyGame
 
         public override void Update(GameTime gameTime)
         {
+            //makes player move foreward
+            Transform3D.TranslateIncrement = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds* moveSpeed;
             //read any input and store suggested increments
-            HandleInput(gameTime);
+            HandleStrafe(gameTime);
 
             //have we collided with something?
             Collidee = CheckAllCollisions(gameTime);
@@ -56,11 +58,11 @@ namespace GDLibrary.MyGame
             base.Update(gameTime);
         }
 
-        protected override void HandleInput(GameTime gameTime)
+        protected override void HandleStrafe(GameTime gameTime)
         {
-            Transform3D.TranslateIncrement
-                    = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-                            * moveSpeed;
+            //Transform3D.TranslateIncrement
+            //        = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
+            //                * moveSpeed;
             //if (keyboardManager.IsKeyDown(moveKeys[0])) //Forward
             //{
             //    Transform3D.TranslateIncrement
@@ -77,13 +79,13 @@ namespace GDLibrary.MyGame
 
             if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
             {
-                Transform3D.TranslateIncrement =
+                Transform3D.TranslateIncrement +=
                     -Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * moveSpeed;
                 //Transform3D.RotateIncrement = gameTime.ElapsedGameTime.Milliseconds * rotationSpeed;
             }
             else if (keyboardManager.IsKeyDown(moveKeys[3])) //Right
             {
-                Transform3D.TranslateIncrement =
+                Transform3D.TranslateIncrement +=
                     Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * moveSpeed;
             }
             if (keyboardManager.IsKeyDown(moveKeys[4])) //jump
@@ -105,7 +107,7 @@ namespace GDLibrary.MyGame
                 if (simpleZoneObject.ID.Equals("sound and camera trigger zone 1"))
                 {
                     //publish an event e.g sound, health progress
-                    object[] parameters = { "smokealarm" };
+                    object[] parameters = { "win" };
                     EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
                         EventActionType.OnPlay2D, parameters));
                 }

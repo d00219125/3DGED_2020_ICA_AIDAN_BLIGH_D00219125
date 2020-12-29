@@ -130,8 +130,16 @@ namespace GDGame
         {
             soundManager.Add(new GDLibrary.Managers.Cue("smokealarm",
                 Content.Load<SoundEffect>("Assets/Audio/Effects/smokealarm1"), SoundCategoryType.Alarm, new Vector3(1, 0, 0), false));
-
-            //to do..add more sounds
+            soundManager.Add(new GDLibrary.Managers.Cue("bump",
+                Content.Load<SoundEffect>("Assets/Audio/Effects/bump"), SoundCategoryType.Diegetic, new Vector3(1, 0, 0), false));
+            soundManager.Add(new GDLibrary.Managers.Cue("jump",
+                Content.Load<SoundEffect>("Assets/Audio/Effects/Jump"), SoundCategoryType.Diegetic, new Vector3(1, 0, 0), false));
+            soundManager.Add(new GDLibrary.Managers.Cue("Die",
+                Content.Load<SoundEffect>("Assets/Audio/Effects/Die"), SoundCategoryType.Diegetic, new Vector3(1, 0, 0), false));
+            soundManager.Add(new GDLibrary.Managers.Cue("win",
+                Content.Load<SoundEffect>("Assets/Audio/Effects/win"), SoundCategoryType.WinLose, new Vector3(1, 0, 0), false));
+            soundManager.Add(new GDLibrary.Managers.Cue("lose",
+                Content.Load<SoundEffect>("Assets/Audio/Effects/lose"), SoundCategoryType.WinLose, new Vector3(1, 0, 0), false));
         }
 
         private void LoadEffects()
@@ -169,6 +177,7 @@ namespace GDGame
             //add more levels here...
 
             //sky
+            textureDictionary.Load("Assets/Textures/Skybox/SquareWall");
             textureDictionary.Load("Assets/Textures/Skybox/back");
             textureDictionary.Load("Assets/Textures/Skybox/left");
             textureDictionary.Load("Assets/Textures/Skybox/right");
@@ -197,6 +206,8 @@ namespace GDGame
             textureDictionary.Load("Assets/Textures/UI/Controls/reticuleDefault");
 
             //add more...
+            //player
+            textureDictionary.Load("Assets/Textures/Player/BlockyTexture");
         }
 
         private void LoadFonts()
@@ -864,12 +875,12 @@ namespace GDGame
             int primitiveCount;
 
             //set the position
-            transform3D = new Transform3D(new Vector3(0, 4, 40), Vector3.Zero, new Vector3(3, 6, 3),
-                -Vector3.UnitZ, Vector3.UnitY);
+            transform3D = 
+                new Transform3D(GameConstants.playerStartPos, Vector3.Zero, new Vector3(3, 6, 3),-Vector3.UnitZ, Vector3.UnitY);
 
             //a unique effectparameters instance for each box in case we want different color, texture, alpha
             effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
-                textureDictionary["crate1"], Color.White, 1);
+                textureDictionary["BlockyTexture"], Color.White, 1);
 
             //get the vertex data object
             vertexData = new VertexData<VertexPositionNormalTexture>(
@@ -893,8 +904,8 @@ namespace GDGame
                     objectManager,
                     GameConstants.KeysOne,
                     GameConstants.playerMoveSpeed,
-                    0f,//blocky cant rotate
-                    keyboardManager);
+                    GameConstants.playerStrafeSpeed,
+                    keyboardManager);;
 
             objectManager.Add(collidablePlayerObject);
         }
@@ -1059,8 +1070,9 @@ namespace GDGame
             drawnActor3D.ActorType = ActorType.Sky;
 
             //  primitiveObject.StatusType = StatusType.Off; //Experiment of the effect of StatusType
-            drawnActor3D.ID = "sky back";
-            drawnActor3D.EffectParameters.Texture = textureDictionary["back"]; ;
+            drawnActor3D.ID = "sky back"; 
+            drawnActor3D.EffectParameters.Texture = textureDictionary["SquareWall"];
+            //drawnActor3D.EffectParameters.Texture = textureDictionary["back"]; 
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale, 1);
             drawnActor3D.Transform3D.Translation = new Vector3(0, 0, -worldScale / 2.0f);
             objectManager.Add(drawnActor3D);
@@ -1069,7 +1081,8 @@ namespace GDGame
             drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
             drawnActor3D.ActorType = ActorType.Sky;
             drawnActor3D.ID = "left back";
-            drawnActor3D.EffectParameters.Texture = textureDictionary["left"]; ;
+//            drawnActor3D.EffectParameters.Texture = textureDictionary["left"];
+            drawnActor3D.EffectParameters.Texture = textureDictionary["SquareWall"]; ;
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale, 1);
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, 90, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(-worldScale / 2.0f, 0, 0);
@@ -1079,7 +1092,8 @@ namespace GDGame
             drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
             drawnActor3D.ActorType = ActorType.Sky;
             drawnActor3D.ID = "sky right";
-            drawnActor3D.EffectParameters.Texture = textureDictionary["right"];
+//            drawnActor3D.EffectParameters.Texture = textureDictionary["right"];
+            drawnActor3D.EffectParameters.Texture = textureDictionary["SquareWall"];
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale, 20);
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, -90, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(worldScale / 2.0f, 0, 0);
@@ -1089,7 +1103,8 @@ namespace GDGame
             drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
             drawnActor3D.ActorType = ActorType.Sky;
             drawnActor3D.ID = "sky top";
-            drawnActor3D.EffectParameters.Texture = textureDictionary["sky"];
+            drawnActor3D.EffectParameters.Texture = textureDictionary["SquareWall"];
+//            drawnActor3D.EffectParameters.Texture = textureDictionary["sky"];
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale, 1);
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(90, -90, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(0, worldScale / 2.0f, 0);
@@ -1099,7 +1114,8 @@ namespace GDGame
             drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
             drawnActor3D.ActorType = ActorType.Sky;
             drawnActor3D.ID = "sky front";
-            drawnActor3D.EffectParameters.Texture = textureDictionary["front"];
+//            drawnActor3D.EffectParameters.Texture = textureDictionary["front"];
+            drawnActor3D.EffectParameters.Texture = textureDictionary["SquareWall"];
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale, 1);
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, 180, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(0, 0, worldScale / 2.0f);
@@ -1158,21 +1174,21 @@ namespace GDGame
             {
                 // soundManager.Play2D("smokealarm");
 
-                object[] parameters = { "smokealarm" };
+                object[] parameters = { "win" };
                 EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
                     EventActionType.OnPlay2D, parameters));
             }
             else if (keyboardManager.IsFirstKeyPress(Keys.F2))
             {
-                soundManager.Pause("smokealarm");
+                soundManager.Pause("win");
 
-                object[] parameters = { "smokealarm" };
+                object[] parameters = { "win" };
                 EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
                     EventActionType.OnPause, parameters));
             }
             else if (keyboardManager.IsFirstKeyPress(Keys.F3))
             {
-                soundManager.Stop("smokealarm");
+                soundManager.Stop("win");
 
                 //or stop with an event
                 //object[] parameters = { "smokealarm" };
@@ -1200,7 +1216,7 @@ namespace GDGame
                 emitter.Forward = Vector3.UnitZ;
                 emitter.Up = Vector3.UnitY;
 
-                object[] parameters = { "smokealarm", listener, emitter };
+                object[] parameters = { "win", listener, emitter };
                 EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
                     EventActionType.OnPlay3D, parameters));
             }

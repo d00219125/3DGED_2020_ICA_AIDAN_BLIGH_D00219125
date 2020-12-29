@@ -76,7 +76,7 @@ namespace GDLibrary.Actors
         }
 
         //read and store movement suggested by keyboard input
-        protected virtual void HandleInput(GameTime gameTime)
+        protected virtual void HandleStrafe(GameTime gameTime)
         {
         }
 

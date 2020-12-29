@@ -99,10 +99,10 @@ namespace GDGame
 
         #region Player
         public static readonly Vector3 playerStartPos = new Vector3(0, 0, 0);
-        public static readonly float playerMoveSpeed = .1f;
-        public static readonly float playerStrafeSpeed = .3f;
-        public static readonly float playerCamOffsetX = 100;
-        public static readonly float playerCamOffsetY = 100;
+        public static readonly float playerMoveSpeed = .05f;
+        public static readonly float playerStrafeSpeed = .03f;
+        public static readonly float playerCamOffsetX = 10;
+        public static readonly float playerCamOffsetY = 10;
         public static readonly Keys[] playerJumpButton = { Keys.Space };
         #endregion Player
 

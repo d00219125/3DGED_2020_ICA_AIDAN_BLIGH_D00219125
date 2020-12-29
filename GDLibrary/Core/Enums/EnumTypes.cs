@@ -5,7 +5,8 @@
         WinLose,
         Explosion,
         BackgroundMusic,
-        Alarm
+        Alarm,
+        Diegetic
     }
 
     /// <summary>
