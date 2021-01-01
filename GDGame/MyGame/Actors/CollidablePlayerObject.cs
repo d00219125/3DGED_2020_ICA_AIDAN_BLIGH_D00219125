@@ -37,7 +37,7 @@ namespace GDLibrary.MyGame
         public override void Update(GameTime gameTime)
         {
             //makes player move foreward
-            Transform3D.TranslateIncrement = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds* moveSpeed;
+            //Transform3D.TranslateIncrement = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds* moveSpeed;
             //read any input and store suggested increments
             HandleStrafe(gameTime);
 
@@ -63,19 +63,19 @@ namespace GDLibrary.MyGame
             //Transform3D.TranslateIncrement
             //        = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
             //                * moveSpeed;
-            //if (keyboardManager.IsKeyDown(moveKeys[0])) //Forward
-            //{
-            //    Transform3D.TranslateIncrement
-            //        = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-            //                * moveSpeed;
-            //}
-            //else
-            //if (keyboardManager.IsKeyDown(moveKeys[1])) //Backward
-            //{
-            //    Transform3D.TranslateIncrement
-            //       = -Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-            //               * moveSpeed;
-            //}
+            if (keyboardManager.IsKeyDown(moveKeys[0])) //Forward
+            {
+                Transform3D.TranslateIncrement
+                    = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
+                            * moveSpeed;
+            }
+            else
+            if (keyboardManager.IsKeyDown(moveKeys[1])) //Backward
+            {
+                Transform3D.TranslateIncrement
+                   = -Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
+                           * moveSpeed;
+            }
 
             if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
             {
@@ -128,6 +128,7 @@ namespace GDLibrary.MyGame
                 else if (collidee.ActorType == ActorType.CollidableDecorator)
                 {
                     (collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Blue;
+                    
                 }
             }
         }
