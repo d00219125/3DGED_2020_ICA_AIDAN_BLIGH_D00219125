@@ -1,6 +1,7 @@
 ﻿#define DEMO
 
 using GDGame.Controllers;
+using GDGame.MyGame.Actors;
 using GDGame.MyGame.Managers;
 using GDLibrary.Actors;
 using GDLibrary.Containers;
@@ -753,6 +754,7 @@ namespace GDGame
                 ActorType.Decorator,
                 StatusType.Update | StatusType.Drawn,
                 transform3D, effectParameters, vertexData));
+
             #endregion Unlit Textured Quad
 
             #region Unlit Origin Helper
@@ -813,6 +815,8 @@ namespace GDGame
 
             InitializeCollidablePlayer();
 
+            InitializeCollidableObstacles();
+
             /************ Level-loader (can be collidable or non-collidable) ************/
 
             LevelLoader<PrimitiveObject> levelLoader = new LevelLoader<PrimitiveObject>(
@@ -841,6 +845,57 @@ namespace GDGame
                              new Vector3(-50, 0, -150) //offset to move all new objects by
                              );
             objectManager.Add(actorList);
+        }
+        /// <summary>
+        /// Initializes the holes in the floor, pyramids that move from side to side and the spheres that move in a sine wave
+        /// </summary>
+        private void InitializeCollidableObstacles()
+        {
+            InitializeCollidablePyramids();
+            //InitializeCollidableSpheres();
+            //InitializeCollidableHoles();
+        }
+
+        private void InitializeCollidablePyramids()
+        {
+            //clone the archetypal pyramid
+            PrimitiveObject drawnActor3D
+                = archetypeDictionary[GameConstants.Primitive_LitTexturedPyramid].Clone() as PrimitiveObject;
+            Transform3D transform3D = null;
+            EffectParameters effectParameters = null;
+            IVertexData vertexData = null;
+            ICollisionPrimitive collisionPrimitive = null;
+
+            //set the position
+            transform3D =
+                new Transform3D(new Vector3(10,0,10), Vector3.Zero, new Vector3(3, 6, 3), -Vector3.UnitZ, Vector3.UnitY);
+
+            //a unique effectparameters instance for each box in case we want different color, texture, alpha
+            effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
+                textureDictionary["checkerboard"], Color.White, 1);
+
+            //get the vertex data object
+            vertexData = drawnActor3D.IVertexData;
+            //new VertexData<VertexPositionNormalTexture>(
+               //VertexFactory.GetVerticesPositionNormalTexturedCube(1,
+                  //                out primitiveType, out primitiveCount),
+                     //             primitiveType, primitiveCount);
+
+            //make a CDCR surface - sphere or box, its up to you - you dont need to pass transform to either primitive anymore
+            collisionPrimitive = new SphereCollisionPrimitive(transform3D, 1);
+
+            CollidableEnemyPyramidObject pyramidObject = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1f, 20f);
+            objectManager.Add(pyramidObject);
+            ////change it a bit
+            //drawnActor3D.ID = "enemy_pyramid";
+            //drawnActor3D.Transform3D.Scale = 10 * new Vector3(1, 1, 1);
+            //drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, 0, 0);
+            //drawnActor3D.Transform3D.Translation = new Vector3(0, 0, 0);
+            //drawnActor3D.EffectParameters.Alpha = 0.5f;
+            //RailParameters path = new RailParameters("pyramid Rail", new Vector3(-10, 0, 0), new Vector3(10, 0, 0));
+            
+            //objectManager.Add(drawnActor3D);
         }
 
 
@@ -1091,29 +1146,6 @@ namespace GDGame
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, -90, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(worldScale / 3.0f, 0, 0);
             objectManager.Add(drawnActor3D);
-
-            ////left walls
-            //for (int i = 0; i < 2; i++)
-            //{
-            //    PrimitiveObject drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
-            //    drawnActor3D.ActorType = ActorType.Ground;
-            //    drawnActor3D.Transform3D.Translation = new Vector3(0 + (i * 100), 0, 0 + (i * 100));
-            //    drawnActor3D.EffectParameters.Texture = textureDictionary["grass1"];
-            //    drawnActor3D.Transform3D.RotationInDegrees = GameConstants.wallRotationLeft; //new Vector3(0, 90, 0);
-            //    drawnActor3D.Transform3D.Scale = GameConstants.wallScale;//wallHeight * Vector3.One;
-            //    objectManager.Add(drawnActor3D);
-            //}
-            ////right walls
-            //for (int i = 0; i < 2; i++)
-            //{
-            //    PrimitiveObject drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
-            //    drawnActor3D.ActorType = ActorType.Ground;
-            //    drawnActor3D.Transform3D.Translation = new Vector3(00 + (i * 100), 0, 00 + (i * 100));
-            //    drawnActor3D.EffectParameters.Texture = textureDictionary["grass1"];
-            //    drawnActor3D.Transform3D.RotationInDegrees = GameConstants.wallRotationRight; //new Vector3(0, 90, 0);
-            //    drawnActor3D.Transform3D.Scale = GameConstants.wallScale;//wallHeight * Vector3.One;
-            //    objectManager.Add(drawnActor3D);
-            //}
         }
 
         private void InitSkybox(float worldScale)

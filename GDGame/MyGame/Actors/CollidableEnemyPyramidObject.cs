@@ -1,44 +1,45 @@
-﻿using GDLibrary.Actors;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using GDLibrary.Actors;
 using GDLibrary.Enums;
 using GDLibrary.Events;
 using GDLibrary.Interfaces;
 using GDLibrary.Managers;
 using GDLibrary.Parameters;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
-namespace GDLibrary.MyGame
+using System.Diagnostics;
+
+namespace GDGame.MyGame.Actors
 {
-    /// <summary>
-    /// Moveable, collidable player using keyboard and checks for collisions
-    /// </summary>
-    public class CollidablePlayerObject : CollidablePrimitiveObject
+    class CollidableEnemyPyramidObject : CollidablePrimitiveObject
     {
         #region Fields
-        private float moveSpeed, strafeSpeed;
-        private KeyboardManager keyboardManager;
-        private Keys[] moveKeys;
+        private float moveSpeed;
+        private float movenentRange, maxRange, minRange;
+        private bool moveRight;
         #endregion Fields
 
-        public CollidablePlayerObject(string id, ActorType actorType, StatusType statusType, Transform3D transform,
+        public CollidableEnemyPyramidObject(string id, ActorType actorType, StatusType statusType, Transform3D transform,
             EffectParameters effectParameters, IVertexData vertexData,
             ICollisionPrimitive collisionPrimitive, ObjectManager objectManager,
-            Keys[] moveKeys, float moveSpeed, float strafeSpeed, KeyboardManager keyboardManager)
+            float moveSpeed, float moveRange)
             : base(id, actorType, statusType, transform, effectParameters, vertexData, collisionPrimitive, objectManager)
         {
-            this.moveKeys = moveKeys;
             this.moveSpeed = moveSpeed;
-            this.strafeSpeed = strafeSpeed;
-
-            //for movement
-            this.keyboardManager = keyboardManager;
+            this.movenentRange = moveRange;
+            this.maxRange = transform.Translation.X + movenentRange;
+            this.minRange = transform.Translation.X - movenentRange;
+            //Debug.WriteLine("MoveRange = " + movenentRange);
+            //Debug.WriteLine("MinRange = " + minRange);
+            //Debug.WriteLine("MaxRange = " + maxRange);
+            this.moveRight = true;
         }
 
         public override void Update(GameTime gameTime)
         {
-            //makes player move foreward
-            //Transform3D.TranslateIncrement = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds* moveSpeed;
-            //read any input and store suggested increments
+            //Debug.WriteLine("is updating");
             HandleStrafe(gameTime);
 
             //have we collided with something?
@@ -60,37 +61,32 @@ namespace GDLibrary.MyGame
 
         protected override void HandleStrafe(GameTime gameTime)
         {
-            //Transform3D.TranslateIncrement
-            //        = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-            //                * moveSpeed;
-            if (keyboardManager.IsKeyDown(moveKeys[0])) //Forward
+            Debug.WriteLine("Is strafing");
+            if (moveRight)
             {
-                Transform3D.TranslateIncrement
-                    = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-                            * moveSpeed;
+                if (this.Transform3D.Translation.X >= maxRange)
+                {
+                    moveRight = false;
+                    Debug.WriteLine("changing direction");
+                }
+                else 
+                {
+                    this.Transform3D.TranslateBy(new Vector3(moveSpeed, 0, 0));
+                   Debug.WriteLine("position = " + this.Transform3D.Translation.X);
+                }
             }
-            else
-            if (keyboardManager.IsKeyDown(moveKeys[1])) //Backward
+            else 
             {
-                Transform3D.TranslateIncrement
-                   = -Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-                           * moveSpeed;
-            }
-
-            if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
-            {
-                Transform3D.TranslateIncrement +=
-                    -Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * moveSpeed;
-                //Transform3D.RotateIncrement = gameTime.ElapsedGameTime.Milliseconds * rotationSpeed;
-            }
-            else if (keyboardManager.IsKeyDown(moveKeys[3])) //Right
-            {
-                Transform3D.TranslateIncrement +=
-                    Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * moveSpeed;
-            }
-            if (keyboardManager.IsKeyDown(moveKeys[4])) //jump
-            {
-                //Figure out jumping
+                if (this.Transform3D.Translation.X <= minRange)
+                {
+                    moveRight = true;
+                    Debug.WriteLine("changing direction");
+                }
+                else
+                {
+                    this.Transform3D.TranslateBy(new Vector3(-moveSpeed, 0, 0));
+                    Debug.WriteLine("position = " + this.Transform3D.Translation.X);
+                }
             }
         }
 
@@ -130,12 +126,12 @@ namespace GDLibrary.MyGame
                     (collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Blue;
 
                 }
-                else if (collidee.ActorType == ActorType.NPC) 
+                else if (collidee.ActorType == ActorType.NPC)
                 {
-                    (collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Black;
+                    //reset player to spawn and subtract one health
+
                 }
             }
-            
         }
     }
 }
