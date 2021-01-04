@@ -778,9 +778,118 @@ namespace GDGame
 
             #endregion Unlit Origin Helper
 
-            //add more archetypes here...
-        }
+            #region Sphere
+            VertexBuffer vertexBuffer;
+            IndexBuffer indexBuffer;
+            BufferedVertexData<VertexPositionColor> bufferedVertexData;//colortexture
+            //Just following the tutorial delete this once working 
+            VertexPositionColor[] vertices2 = new VertexPositionColor[12];
+            // vertex position and color information for icosahedron
+            vertices2[0] = new VertexPositionColor(new Vector3(-0.26286500f, 0.0000000f, 0.42532500f), Color.Red);
+            vertices2[1] = new VertexPositionColor(new Vector3(0.26286500f, 0.0000000f, 0.42532500f), Color.Orange);
+            vertices2[2] = new VertexPositionColor(new Vector3(-0.26286500f, 0.0000000f, -0.42532500f), Color.Yellow);
+            vertices2[3] = new VertexPositionColor(new Vector3(0.26286500f, 0.0000000f, -0.42532500f), Color.Green);
+            vertices2[4] = new VertexPositionColor(new Vector3(0.0000000f, 0.42532500f, 0.26286500f), Color.Blue);
+            vertices2[5] = new VertexPositionColor(new Vector3(0.0000000f, 0.42532500f, -0.26286500f), Color.Indigo);
+            vertices2[6] = new VertexPositionColor(new Vector3(0.0000000f, -0.42532500f, 0.26286500f), Color.Purple);
+            vertices2[7] = new VertexPositionColor(new Vector3(0.0000000f, -0.42532500f, -0.26286500f), Color.White);
+            vertices2[8] = new VertexPositionColor(new Vector3(0.42532500f, 0.26286500f, 0.0000000f), Color.Cyan);
+            vertices2[9] = new VertexPositionColor(new Vector3(-0.42532500f, 0.26286500f, 0.0000000f), Color.Black);
+            vertices2[10] = new VertexPositionColor(new Vector3(0.42532500f, -0.26286500f, 0.0000000f), Color.DodgerBlue);
+            vertices2[11] = new VertexPositionColor(new Vector3(-0.42532500f, -0.26286500f, 0.0000000f), Color.Crimson);
 
+            // Set up the vertex buffer
+            vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 12, BufferUsage.WriteOnly);
+            vertexBuffer.SetData<VertexPositionColor>(vertices2);
+
+            short[] indices = new short[60];
+            indices[0] = 0; indices[1] = 6; indices[2] = 1;
+            indices[3] = 0; indices[4] = 11; indices[5] = 6;
+            indices[6] = 1; indices[7] = 4; indices[8] = 0;
+            indices[9] = 1; indices[10] = 8; indices[11] = 4;
+            indices[12] = 1; indices[13] = 10; indices[14] = 8;
+            indices[15] = 2; indices[16] = 5; indices[17] = 3;
+            indices[18] = 2; indices[19] = 9; indices[20] = 5;
+            indices[21] = 2; indices[22] = 11; indices[23] = 9;
+            indices[24] = 3; indices[25] = 7; indices[26] = 2;
+            indices[27] = 3; indices[28] = 10; indices[29] = 7;
+            indices[30] = 4; indices[31] = 8; indices[32] = 5;
+            indices[33] = 4; indices[34] = 9; indices[35] = 0;
+            indices[36] = 5; indices[37] = 8; indices[38] = 3;
+            indices[39] = 5; indices[40] = 9; indices[41] = 4;
+            indices[42] = 6; indices[43] = 10; indices[44] = 1;
+            indices[45] = 6; indices[46] = 11; indices[47] = 7;
+            indices[48] = 7; indices[49] = 10; indices[50] = 6;
+            indices[51] = 7; indices[52] = 11; indices[53] = 2;
+            indices[54] = 8; indices[55] = 10; indices[56] = 3;
+            indices[57] = 9; indices[58] = 11; indices[59] = 0;
+
+            indexBuffer = new IndexBuffer(_graphics.GraphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
+            indexBuffer.SetData(indices);
+
+            transform3D = new Transform3D(Vector3.Zero, Vector3.Zero, Vector3.One, Vector3.UnitZ, Vector3.UnitY);
+
+            bufferedVertexData = new BufferedVertexData<VertexPositionColor>(_graphics.GraphicsDevice, vertices2, PrimitiveType.TriangleList, 20);
+            archetypeDictionary.Add(GameConstants.Primitive_LitTexturedSphere, new PrimitiveObject(GameConstants.Primitive_LitTexturedSphere,
+                ActorType.CollidableDecorator, StatusType.Drawn | StatusType.Update, transform3D, effectParameters, bufferedVertexData));
+            #endregion Sphere
+
+            #region Textured Cylinder
+            #endregion Textured Cylinder
+        }
+        //private void drawIndexedPrimitives() 
+        //{
+        //    VertexBuffer vertexBuffer;
+        //    IndexBuffer indexBuffer;
+        //    BufferedVertexData<VertexPositionColor> bufferedVertexData;//colortexture
+        //    //Just following the tutorial delete this once working 
+        //    VertexPositionColor[] vertices2 = new VertexPositionColor[12];
+        //    // vertex position and color information for icosahedron
+        //    vertices2[0] = new VertexPositionColor(new Vector3(-0.26286500f, 0.0000000f, 0.42532500f), Color.Red);
+        //    vertices2[1] = new VertexPositionColor(new Vector3(0.26286500f, 0.0000000f, 0.42532500f), Color.Orange);
+        //    vertices2[2] = new VertexPositionColor(new Vector3(-0.26286500f, 0.0000000f, -0.42532500f), Color.Yellow);
+        //    vertices2[3] = new VertexPositionColor(new Vector3(0.26286500f, 0.0000000f, -0.42532500f), Color.Green);
+        //    vertices2[4] = new VertexPositionColor(new Vector3(0.0000000f, 0.42532500f, 0.26286500f), Color.Blue);
+        //    vertices2[5] = new VertexPositionColor(new Vector3(0.0000000f, 0.42532500f, -0.26286500f), Color.Indigo);
+        //    vertices2[6] = new VertexPositionColor(new Vector3(0.0000000f, -0.42532500f, 0.26286500f), Color.Purple);
+        //    vertices2[7] = new VertexPositionColor(new Vector3(0.0000000f, -0.42532500f, -0.26286500f), Color.White);
+        //    vertices2[8] = new VertexPositionColor(new Vector3(0.42532500f, 0.26286500f, 0.0000000f), Color.Cyan);
+        //    vertices2[9] = new VertexPositionColor(new Vector3(-0.42532500f, 0.26286500f, 0.0000000f), Color.Black);
+        //    vertices2[10] = new VertexPositionColor(new Vector3(0.42532500f, -0.26286500f, 0.0000000f), Color.DodgerBlue);
+        //    vertices2[11] = new VertexPositionColor(new Vector3(-0.42532500f, -0.26286500f, 0.0000000f), Color.Crimson);
+
+        //    // Set up the vertex buffer
+        //    vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 12, BufferUsage.WriteOnly);
+        //    vertexBuffer.SetData<VertexPositionColor>(vertices2);
+
+        //    short[] indices = new short[60];
+        //    indices[0] = 0; indices[1] = 6; indices[2] = 1;
+        //    indices[3] = 0; indices[4] = 11; indices[5] = 6;
+        //    indices[6] = 1; indices[7] = 4; indices[8] = 0;
+        //    indices[9] = 1; indices[10] = 8; indices[11] = 4;
+        //    indices[12] = 1; indices[13] = 10; indices[14] = 8;
+        //    indices[15] = 2; indices[16] = 5; indices[17] = 3;
+        //    indices[18] = 2; indices[19] = 9; indices[20] = 5;
+        //    indices[21] = 2; indices[22] = 11; indices[23] = 9;
+        //    indices[24] = 3; indices[25] = 7; indices[26] = 2;
+        //    indices[27] = 3; indices[28] = 10; indices[29] = 7;
+        //    indices[30] = 4; indices[31] = 8; indices[32] = 5;
+        //    indices[33] = 4; indices[34] = 9; indices[35] = 0;
+        //    indices[36] = 5; indices[37] = 8; indices[38] = 3;
+        //    indices[39] = 5; indices[40] = 9; indices[41] = 4;
+        //    indices[42] = 6; indices[43] = 10; indices[44] = 1;
+        //    indices[45] = 6; indices[46] = 11; indices[47] = 7;
+        //    indices[48] = 7; indices[49] = 10; indices[50] = 6;
+        //    indices[51] = 7; indices[52] = 11; indices[53] = 2;
+        //    indices[54] = 8; indices[55] = 10; indices[56] = 3;
+        //    indices[57] = 9; indices[58] = 11; indices[59] = 0;
+
+        //    indexBuffer = new IndexBuffer(_graphics.GraphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
+        //    indexBuffer.SetData(indices);
+
+        //    bufferedVertexData = new BufferedVertexData<VertexPositionColor>(_graphics.GraphicsDevice, vertices2, PrimitiveType.TriangleList, 20);
+        //   // archetypeDictionary.Add(GameConstants.Primitive_LitTexturedSphere, bufferedVertexData as PrimitiveObject);
+        //}
         private void InitLevel(float worldScale)//, List<string> levelNames)
         {
             //remove any old content (e.g. on restart or next level)
@@ -852,8 +961,36 @@ namespace GDGame
         private void InitializeCollidableObstacles()
         {
             InitializeCollidablePyramids();
-            //InitializeCollidableSpheres();
+            InitializeCollidableSpheres();
             //InitializeCollidableHoles();
+        }
+
+        private void InitializeCollidableSpheres()
+        {
+            //clone the archetypal pyramid
+            PrimitiveObject drawnActor3D
+                = archetypeDictionary[GameConstants.Primitive_LitTexturedSphere].Clone() as PrimitiveObject;
+            Transform3D transform3D = null;
+            EffectParameters effectParameters = null;
+            IVertexData vertexData = null;
+            ICollisionPrimitive collisionPrimitive = null;
+
+            //set the position
+            transform3D =
+                new Transform3D(new Vector3(0, 0, 0), Vector3.Zero, new Vector3(3, 6, 3), -Vector3.UnitZ, Vector3.UnitY);
+
+            //a unique effectparameters instance for each box in case we want different color, texture, alpha
+            effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
+                textureDictionary["checkerboard"], Color.White, 1);
+
+            //get the vertex data object
+            vertexData = drawnActor3D.IVertexData;
+
+            collisionPrimitive = new SphereCollisionPrimitive(transform3D, 1);
+
+            CollidableEnemyPyramidObject sphereObject = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1f, 20f);
+            objectManager.Add(sphereObject);
         }
 
         private void InitializeCollidablePyramids()
@@ -1358,7 +1495,6 @@ namespace GDGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             base.Draw(gameTime);
         }
 

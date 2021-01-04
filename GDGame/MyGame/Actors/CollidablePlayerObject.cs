@@ -69,8 +69,8 @@ namespace GDLibrary.MyGame
                     = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
                             * moveSpeed;
             }
-            else
-            if (keyboardManager.IsKeyDown(moveKeys[1])) //Backward
+
+            else if (keyboardManager.IsKeyDown(moveKeys[1])) //Backward
             {
                 Transform3D.TranslateIncrement
                    = -Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
@@ -79,13 +79,13 @@ namespace GDLibrary.MyGame
 
             if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
             {
-                Transform3D.TranslateIncrement +=
+                Transform3D.TranslateIncrement =
                     -Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * moveSpeed;
                 //Transform3D.RotateIncrement = gameTime.ElapsedGameTime.Milliseconds * rotationSpeed;
             }
             else if (keyboardManager.IsKeyDown(moveKeys[3])) //Right
             {
-                Transform3D.TranslateIncrement +=
+                Transform3D.TranslateIncrement =
                     Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * moveSpeed;
             }
             if (keyboardManager.IsKeyDown(moveKeys[4])) //jump

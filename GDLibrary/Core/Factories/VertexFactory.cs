@@ -717,5 +717,93 @@ namespace GDLibrary.Factories
 
             return vertices;
         }
+        /// <summary>
+        /// Creates a sphere (Icosahedron) using vertex factory
+        /// </summary>
+        /// <param name="sidelength">Used for the vectors that are used in the VertexPositionNormalTexture constructor when creating vertices</param>
+        /// <param name="primitiveType"></param>
+        /// <param name="primitiveCount"></param>
+        /// <returns></returns>
+        //public static VertexPositionNormalTexture[] GetVerticesPositionNormalTexturedSphere(int sidelength, out PrimitiveType primitiveType, out int primitiveCount)
+        //{
+        //    primitiveType = PrimitiveType.TriangleList;
+        //    primitiveCount = 12;
+
+        //    VertexPositionNormalTexture[] vertices = new VertexPositionNormalTexture[12];
+
+        //    float halfSideLength = sidelength / 2.0f;
+
+        //    Vector3 topLeftFront = new Vector3(-halfSideLength, halfSideLength, halfSideLength);
+        //    Vector3 topLeftBack = new Vector3(-halfSideLength, halfSideLength, -halfSideLength);
+        //    Vector3 topRightFront = new Vector3(halfSideLength, halfSideLength, halfSideLength);
+        //    Vector3 topRightBack = new Vector3(halfSideLength, halfSideLength, -halfSideLength);
+
+        //    Vector3 bottomLeftFront = new Vector3(-halfSideLength, -halfSideLength, halfSideLength);
+        //    Vector3 bottomLeftBack = new Vector3(-halfSideLength, -halfSideLength, -halfSideLength);
+        //    Vector3 bottomRightFront = new Vector3(halfSideLength, -halfSideLength, halfSideLength);
+        //    Vector3 bottomRightBack = new Vector3(halfSideLength, -halfSideLength, -halfSideLength);
+
+        //    //uv coordinates
+        //    Vector2 uvTopLeft = new Vector2(0, 0);
+        //    Vector2 uvTopRight = new Vector2(1, 0);
+        //    Vector2 uvBottomLeft = new Vector2(0, 1);
+        //    Vector2 uvBottomRight = new Vector2(1, 1);
+
+        //    //top - 1 polygon for the top
+        //    vertices[0] = new VertexPositionNormalTexture(topLeftFront, Vector3.UnitY, uvBottomLeft);
+        //    vertices[1] = new VertexPositionNormalTexture(topLeftBack, Vector3.UnitY, uvTopLeft);
+        //    vertices[2] = new VertexPositionNormalTexture(topRightBack, Vector3.UnitY, uvTopRight);
+
+        //    vertices[3] = new VertexPositionNormalTexture(topLeftFront, Vector3.UnitY, uvBottomLeft);
+        //    vertices[4] = new VertexPositionNormalTexture(topRightBack, Vector3.UnitY, uvTopRight);
+        //    vertices[5] = new VertexPositionNormalTexture(topRightFront, Vector3.UnitY, uvBottomRight);
+
+        //    //front
+        //    vertices[6] = new VertexPositionNormalTexture(topLeftFront, Vector3.UnitZ, uvBottomLeft);
+        //    vertices[7] = new VertexPositionNormalTexture(topRightFront, Vector3.UnitZ, uvBottomRight);
+        //    vertices[8] = new VertexPositionNormalTexture(bottomLeftFront, Vector3.UnitZ, uvTopLeft);
+
+        //    vertices[9] = new VertexPositionNormalTexture(bottomLeftFront, Vector3.UnitZ, uvTopLeft);
+        //    vertices[10] = new VertexPositionNormalTexture(topRightFront, Vector3.UnitZ, uvBottomRight);
+        //    vertices[11] = new VertexPositionNormalTexture(bottomRightFront, Vector3.UnitZ, uvTopRight);
+
+        //    //back
+        //    vertices[12] = new VertexPositionNormalTexture(bottomRightBack, -Vector3.UnitZ, uvBottomRight);
+        //    vertices[13] = new VertexPositionNormalTexture(topRightBack, -Vector3.UnitZ, uvTopRight);
+        //    vertices[14] = new VertexPositionNormalTexture(topLeftBack, -Vector3.UnitZ, uvTopLeft);
+
+        //    vertices[15] = new VertexPositionNormalTexture(bottomRightBack, -Vector3.UnitZ, uvBottomRight);
+        //    vertices[16] = new VertexPositionNormalTexture(topLeftBack, -Vector3.UnitZ, uvTopLeft);
+        //    vertices[17] = new VertexPositionNormalTexture(bottomLeftBack, -Vector3.UnitZ, uvBottomLeft);
+
+        //    //left
+        //    vertices[18] = new VertexPositionNormalTexture(topLeftBack, -Vector3.UnitX, uvTopLeft);
+        //    vertices[19] = new VertexPositionNormalTexture(topLeftFront, -Vector3.UnitX, uvTopRight);
+        //    vertices[20] = new VertexPositionNormalTexture(bottomLeftFront, -Vector3.UnitX, uvBottomRight);
+
+        //    vertices[21] = new VertexPositionNormalTexture(bottomLeftBack, -Vector3.UnitX, uvBottomLeft);
+        //    vertices[22] = new VertexPositionNormalTexture(topLeftBack, -Vector3.UnitX, uvTopLeft);
+        //    vertices[23] = new VertexPositionNormalTexture(bottomLeftFront, -Vector3.UnitX, uvBottomRight);
+
+        //    //right
+        //    vertices[24] = new VertexPositionNormalTexture(bottomRightFront, Vector3.UnitX, uvBottomLeft);
+        //    vertices[25] = new VertexPositionNormalTexture(topRightFront, Vector3.UnitX, uvTopLeft);
+        //    vertices[26] = new VertexPositionNormalTexture(bottomRightBack, Vector3.UnitX, uvBottomRight);
+
+        //    vertices[27] = new VertexPositionNormalTexture(topRightFront, Vector3.UnitX, uvTopLeft);
+        //    vertices[28] = new VertexPositionNormalTexture(topRightBack, Vector3.UnitX, uvTopRight);
+        //    vertices[29] = new VertexPositionNormalTexture(bottomRightBack, Vector3.UnitX, uvBottomRight);
+
+        //    //bottom
+        //    vertices[30] = new VertexPositionNormalTexture(bottomLeftFront, -Vector3.UnitY, uvTopLeft);
+        //    vertices[31] = new VertexPositionNormalTexture(bottomRightFront, -Vector3.UnitY, uvTopRight);
+        //    vertices[32] = new VertexPositionNormalTexture(bottomRightBack, -Vector3.UnitY, uvBottomRight);
+
+        //    vertices[33] = new VertexPositionNormalTexture(bottomLeftFront, -Vector3.UnitY, uvTopLeft);
+        //    vertices[34] = new VertexPositionNormalTexture(bottomRightBack, -Vector3.UnitY, uvBottomRight);
+        //    vertices[35] = new VertexPositionNormalTexture(bottomLeftBack, -Vector3.UnitY, uvBottomLeft);
+
+        //    return vertices;
+        //}
     }
 }

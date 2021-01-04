@@ -20,6 +20,8 @@ namespace GDGame
         public static readonly string Primitive_LitTexturedPyramid = "lit textured pyramid";
         public static readonly string Primitive_LitTexturedCube = "lit textured cube";
 
+        public static readonly string Primitive_LitTexturedSphere = "lit textured Sphere";
+
         public static readonly string Effect_UnlitTextured = "unlit textured";
         public static readonly string Effect_LitTextured = "lit textured";
         public static readonly string Effect_UnlitWireframe = "unlit wireframe";
