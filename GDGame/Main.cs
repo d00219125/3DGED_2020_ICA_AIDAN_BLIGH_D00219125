@@ -725,15 +725,6 @@ namespace GDGame
                 transform3D, effectParameters,
                 vertexData);
 
-            /*********** Controllers (optional) ***********/
-            //we could add controllers to the archetype and then all clones would have cloned controllers
-            //  drawnActor3D.ControllerList.Add(
-            //new RotationController("rot controller1", ControllerType.RotationOverTime,
-            //1, new Vector3(0, 1, 0)));
-
-            //to do...add demos of controllers on archetypes
-            //ensure that the Clone() method of PrimitiveObject will Clone() all controllers
-
             archetypeDictionary.Add(primitiveObject.ID, primitiveObject);
             #endregion Lit Textured Pyramid
 
@@ -777,8 +768,10 @@ namespace GDGame
                 transform3D, effectParameters, vertexData));
 
             #endregion Unlit Origin Helper
-
+            //Used http://rbwhitaker.wikidot.com/index-and-vertex-buffers to make sphere using vertex and indices
             #region Sphere
+            effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_UnlitWireframe],null, Color.White, 1);
+            //effectParameters = null;
             VertexBuffer vertexBuffer;
             IndexBuffer indexBuffer;
             BufferedVertexData<VertexPositionColor> bufferedVertexData;//colortexture
@@ -786,52 +779,55 @@ namespace GDGame
             VertexPositionColor[] vertices2 = new VertexPositionColor[12];
             // vertex position and color information for icosahedron
             vertices2[0] = new VertexPositionColor(new Vector3(-0.26286500f, 0.0000000f, 0.42532500f), Color.Red);
-            vertices2[1] = new VertexPositionColor(new Vector3(0.26286500f, 0.0000000f, 0.42532500f), Color.Orange);
+            vertices2[1] = new VertexPositionColor(new Vector3(0.26286500f, 0.0000000f, 0.42532500f), Color.Orange);//here
             vertices2[2] = new VertexPositionColor(new Vector3(-0.26286500f, 0.0000000f, -0.42532500f), Color.Yellow);
             vertices2[3] = new VertexPositionColor(new Vector3(0.26286500f, 0.0000000f, -0.42532500f), Color.Green);
             vertices2[4] = new VertexPositionColor(new Vector3(0.0000000f, 0.42532500f, 0.26286500f), Color.Blue);
             vertices2[5] = new VertexPositionColor(new Vector3(0.0000000f, 0.42532500f, -0.26286500f), Color.Indigo);
-            vertices2[6] = new VertexPositionColor(new Vector3(0.0000000f, -0.42532500f, 0.26286500f), Color.Purple);
+            vertices2[6] = new VertexPositionColor(new Vector3(0.0000000f, -0.42532500f, 0.26286500f), Color.Purple);//here
             vertices2[7] = new VertexPositionColor(new Vector3(0.0000000f, -0.42532500f, -0.26286500f), Color.White);
-            vertices2[8] = new VertexPositionColor(new Vector3(0.42532500f, 0.26286500f, 0.0000000f), Color.Cyan);
+            vertices2[8] = new VertexPositionColor(new Vector3(0.42532500f, 0.26286500f, 0.0000000f), Color.Cyan);//here
             vertices2[9] = new VertexPositionColor(new Vector3(-0.42532500f, 0.26286500f, 0.0000000f), Color.Black);
             vertices2[10] = new VertexPositionColor(new Vector3(0.42532500f, -0.26286500f, 0.0000000f), Color.DodgerBlue);
             vertices2[11] = new VertexPositionColor(new Vector3(-0.42532500f, -0.26286500f, 0.0000000f), Color.Crimson);
-
             // Set up the vertex buffer
             vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 12, BufferUsage.WriteOnly);
             vertexBuffer.SetData<VertexPositionColor>(vertices2);
-
+            //short a = 0, b = 1, c = 2, d = 3, e = 4, f = 5, g = 6, h = 7, i = 8, j = 9, k = ;
             short[] indices = new short[60];
-            indices[0] = 0; indices[1] = 6; indices[2] = 1;
-            indices[3] = 0; indices[4] = 11; indices[5] = 6;
-            indices[6] = 1; indices[7] = 4; indices[8] = 0;
-            indices[9] = 1; indices[10] = 8; indices[11] = 4;
-            indices[12] = 1; indices[13] = 10; indices[14] = 8;
-            indices[15] = 2; indices[16] = 5; indices[17] = 3;
-            indices[18] = 2; indices[19] = 9; indices[20] = 5;
-            indices[21] = 2; indices[22] = 11; indices[23] = 9;
-            indices[24] = 3; indices[25] = 7; indices[26] = 2;
-            indices[27] = 3; indices[28] = 10; indices[29] = 7;
-            indices[30] = 4; indices[31] = 8; indices[32] = 5;
-            indices[33] = 4; indices[34] = 9; indices[35] = 0;
-            indices[36] = 5; indices[37] = 8; indices[38] = 3;
-            indices[39] = 5; indices[40] = 9; indices[41] = 4;
-            indices[42] = 6; indices[43] = 10; indices[44] = 1;
-            indices[45] = 6; indices[46] = 11; indices[47] = 7;
-            indices[48] = 7; indices[49] = 10; indices[50] = 6;
-            indices[51] = 7; indices[52] = 11; indices[53] = 2;
-            indices[54] = 8; indices[55] = 10; indices[56] = 3;
-            indices[57] = 9; indices[58] = 11; indices[59] = 0;
+            indices[0] = 0; indices[1] = 1; indices[2] = 6;
+            indices[3] = 0; indices[4] = 6; indices[5] = 11;
+            indices[6] = 0; indices[7] = 11; indices[8] = 9;
+            indices[9] = 0; indices[10] =9 ; indices[11] = 4;
+            indices[12] = 0; indices[13] = 4; indices[14] = 1;
+           // indices[15] = 0; indices[16] = 4; indices[17] = 1;
 
+            indices[15] = 3; indices[16] = 2; indices[17] = 7;
+            indices[18] = 3; indices[19] = 7; indices[20] = 10;
+            indices[21] = 3; indices[22] = 10; indices[23] = 8;
+            indices[24] = 3; indices[25] = 8; indices[26] = 5;
+            indices[27] = 3; indices[28] = 5; indices[29] = 2;
+
+            indices[30] = 6; indices[31] = 1; indices[32] = 10;//change
+            indices[33] = 6; indices[34] = 10; indices[35] = 7;//change
+            indices[36] = 1; indices[37] = 8; indices[38] = 10;
+            indices[39] = 1; indices[40] = 4; indices[41] = 8;
+            indices[42] = 4; indices[43] = 5; indices[44] =8;
+            indices[45] = 4; indices[46] = 9; indices[47] =5;
+            indices[48] = 9; indices[49] = 2; indices[50] = 5;
+            indices[51] = 9; indices[52] = 11; indices[53] = 2;
+            indices[54] = 11; indices[55] = 7; indices[56] = 2;
+            indices[57] = 11; indices[58] = 6; indices[59] = 7;
+            
             indexBuffer = new IndexBuffer(_graphics.GraphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
             indexBuffer.SetData(indices);
 
             transform3D = new Transform3D(Vector3.Zero, Vector3.Zero, Vector3.One, Vector3.UnitZ, Vector3.UnitY);
-
-            bufferedVertexData = new BufferedVertexData<VertexPositionColor>(_graphics.GraphicsDevice, vertices2, PrimitiveType.TriangleList, 20);
+            
+            bufferedVertexData = new BufferedVertexData<VertexPositionColor>(_graphics.GraphicsDevice, vertices2, vertexBuffer, indexBuffer, PrimitiveType.TriangleList, 20);
             archetypeDictionary.Add(GameConstants.Primitive_LitTexturedSphere, new PrimitiveObject(GameConstants.Primitive_LitTexturedSphere,
                 ActorType.CollidableDecorator, StatusType.Drawn | StatusType.Update, transform3D, effectParameters, bufferedVertexData));
+            //            _graphics.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 12, 0, 20);
             #endregion Sphere
 
             #region Textured Cylinder
@@ -968,8 +964,7 @@ namespace GDGame
         private void InitializeCollidableSpheres()
         {
             //clone the archetypal pyramid
-            PrimitiveObject drawnActor3D
-                = archetypeDictionary[GameConstants.Primitive_LitTexturedSphere].Clone() as PrimitiveObject;
+            PrimitiveObject drawnActor3D= archetypeDictionary[GameConstants.Primitive_LitTexturedSphere].Clone() as PrimitiveObject;
             Transform3D transform3D = null;
             EffectParameters effectParameters = null;
             IVertexData vertexData = null;
@@ -977,19 +972,18 @@ namespace GDGame
 
             //set the position
             transform3D =
-                new Transform3D(new Vector3(0, 0, 0), Vector3.Zero, new Vector3(3, 6, 3), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(new Vector3(50, 50, 50), Vector3.Zero, new Vector3(50, 50, 50), -Vector3.UnitZ, Vector3.UnitY);
 
             //a unique effectparameters instance for each box in case we want different color, texture, alpha
-            effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
-                textureDictionary["checkerboard"], Color.White, 1);
-
+            effectParameters =  new EffectParameters(effectDictionary[GameConstants.Effect_UnlitWireframe],
+               null, Color.White, 1);
+            
             //get the vertex data object
             vertexData = drawnActor3D.IVertexData;
-
             collisionPrimitive = new SphereCollisionPrimitive(transform3D, 1);
-
-            CollidableEnemyPyramidObject sphereObject = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | StatusType.Update,
-                transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1f, 20f);
+            CollidableEnemyPyramidObject sphereObject = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | 
+                StatusType.Update,
+                transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1f, 0f);
             objectManager.Add(sphereObject);
         }
 
@@ -1011,12 +1005,7 @@ namespace GDGame
             effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
                 textureDictionary["checkerboard"], Color.White, 1);
 
-            //get the vertex data object
             vertexData = drawnActor3D.IVertexData;
-            //new VertexData<VertexPositionNormalTexture>(
-               //VertexFactory.GetVerticesPositionNormalTexturedCube(1,
-                  //                out primitiveType, out primitiveCount),
-                     //             primitiveType, primitiveCount);
 
             //make a CDCR surface - sphere or box, its up to you - you dont need to pass transform to either primitive anymore
             collisionPrimitive = new SphereCollisionPrimitive(transform3D, 1);

@@ -89,7 +89,7 @@ namespace GDLibrary.Utilities
                 //change it a bit
                 drawnActor3D.ID = "pyramid " + count++;
                 drawnActor3D.Transform3D.Scale = 10 * new Vector3(3, 4, 1);
-                drawnActor3D.EffectParameters.DiffuseColor = Color.Blue;
+                //drawnActor3D.EffectParameters.DiffuseColor = Color.Blue;
                 drawnActor3D.EffectParameters.Alpha = 0.5f;
                 drawnActor3D.Transform3D.Translation = translation;
                 drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, 0, 0);

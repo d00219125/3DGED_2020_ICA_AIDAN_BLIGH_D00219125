@@ -123,7 +123,7 @@ namespace GDGame.MyGame.Actors
                 //the boxes on the right that move up and down
                 else if (collidee.ActorType == ActorType.CollidableDecorator)
                 {
-                    (collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Blue;
+                   // (collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Blue;
 
                 }
                 else if (collidee.ActorType == ActorType.NPC)

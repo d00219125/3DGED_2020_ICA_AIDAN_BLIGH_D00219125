@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GDLibrary.Parameters
 {
@@ -12,11 +13,12 @@ namespace GDLibrary.Parameters
     ///              you wish to draw a large number of primitives on screen.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BufferedVertexData<T> : VertexData<T> where T : struct, IVertexType
+    public class BufferedVertexData<T> : VertexData<T>, ICloneable  where T : struct, IVertexType //, ICloneable 
     {
         #region Variables
         private VertexBuffer vertexBuffer;
         private GraphicsDevice graphicsDevice;
+        private IndexBuffer indexBuffer;
         #endregion Variables
 
         #region Properties
@@ -42,7 +44,7 @@ namespace GDLibrary.Parameters
 
         //allows developer to pass in vertices AND buffer - more efficient since buffer is defined ONCE outside of the object instead of a new VertexBuffer for EACH instance of the class
         public BufferedVertexData(GraphicsDevice graphicsDevice, T[] vertices,
-            VertexBuffer vertexBuffer, PrimitiveType primitiveType, int primitiveCount)
+            VertexBuffer vertexBuffer, IndexBuffer indexBuffer, PrimitiveType primitiveType, int primitiveCount)
             : base(vertices, primitiveType, primitiveCount)
         {
             this.graphicsDevice = graphicsDevice;
@@ -50,6 +52,8 @@ namespace GDLibrary.Parameters
 
             //set data on the reserved space
             this.vertexBuffer.SetData<T>(this.Vertices);
+
+            this.indexBuffer = indexBuffer;
         }
 
         //buffer is created INSIDE the class so each class has a buffer - not efficient
@@ -78,14 +82,20 @@ namespace GDLibrary.Parameters
             //this is what we want GFX to draw
             effect.GraphicsDevice.SetVertexBuffer(this.vertexBuffer);
 
+            effect.GraphicsDevice.Indices = this.indexBuffer;
+
             //draw!
-            effect.GraphicsDevice.DrawPrimitives(this.PrimitiveType, 0, this.PrimitiveCount);
+            //effect.GraphicsDevice.DrawPrimitives(this.PrimitiveType, 0, this.PrimitiveCount);
+            effect.GraphicsDevice.DrawIndexedPrimitives(this.PrimitiveType, 0,0, this.PrimitiveCount);
+
         }
 
         public new object Clone()
         {
             return new BufferedVertexData<T>(this.graphicsDevice,  //shallow - reference
                 this.Vertices, //shallow - reference
+                this.vertexBuffer,
+                this.indexBuffer,
                 this.PrimitiveType, //struct - deep
                 this.PrimitiveCount); //deep - primitive
         }
