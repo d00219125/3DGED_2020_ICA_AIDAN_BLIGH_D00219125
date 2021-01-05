@@ -972,7 +972,7 @@ namespace GDGame
 
             //set the position
             transform3D =
-                new Transform3D(new Vector3(50, 50, 50), Vector3.Zero, new Vector3(50, 50, 50), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(new Vector3(10, 10, 10), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
 
             //a unique effectparameters instance for each box in case we want different color, texture, alpha
             effectParameters =  new EffectParameters(effectDictionary[GameConstants.Effect_UnlitWireframe],
@@ -981,9 +981,11 @@ namespace GDGame
             //get the vertex data object
             vertexData = drawnActor3D.IVertexData;
             collisionPrimitive = new SphereCollisionPrimitive(transform3D, 1);
-            CollidableEnemyPyramidObject sphereObject = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | 
-                StatusType.Update,
-                transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1f, 0f);
+            CollidableEnemySphereObject sphereObject = new CollidableEnemySphereObject("enemy sphere", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1, 20);
+            //CollidableEnemyPyramidObject sphereObject = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | 
+            //    StatusType.Update,
+            //    transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1f, 0f);
             objectManager.Add(sphereObject);
         }
 

@@ -61,18 +61,18 @@ namespace GDGame.MyGame.Actors
 
         protected override void HandleStrafe(GameTime gameTime)
         {
-            Debug.WriteLine("Is strafing");
+            //Debug.WriteLine("Is strafing");
             if (moveRight)
             {
                 if (this.Transform3D.Translation.X >= maxRange)
                 {
                     moveRight = false;
-                    Debug.WriteLine("changing direction");
+                    //Debug.WriteLine("changing direction");
                 }
                 else 
                 {
                     this.Transform3D.TranslateBy(new Vector3(moveSpeed, 0, 0));
-                   Debug.WriteLine("position = " + this.Transform3D.Translation.X);
+                   //Debug.WriteLine("position = " + this.Transform3D.Translation.X);
                 }
             }
             else 
@@ -80,12 +80,12 @@ namespace GDGame.MyGame.Actors
                 if (this.Transform3D.Translation.X <= minRange)
                 {
                     moveRight = true;
-                    Debug.WriteLine("changing direction");
+                    //Debug.WriteLine("changing direction");
                 }
                 else
                 {
                     this.Transform3D.TranslateBy(new Vector3(-moveSpeed, 0, 0));
-                    Debug.WriteLine("position = " + this.Transform3D.Translation.X);
+                    //Debug.WriteLine("position = " + this.Transform3D.Translation.X);
                 }
             }
         }
