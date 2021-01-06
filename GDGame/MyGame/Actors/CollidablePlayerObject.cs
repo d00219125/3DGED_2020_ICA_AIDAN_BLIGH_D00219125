@@ -1,4 +1,5 @@
-﻿using GDLibrary.Actors;
+﻿using GDGame;
+using GDLibrary.Actors;
 using GDLibrary.Enums;
 using GDLibrary.Events;
 using GDLibrary.Interfaces;
@@ -6,6 +7,7 @@ using GDLibrary.Managers;
 using GDLibrary.Parameters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace GDLibrary.MyGame
 {
@@ -15,7 +17,8 @@ namespace GDLibrary.MyGame
     public class CollidablePlayerObject : CollidablePrimitiveObject
     {
         #region Fields
-        private float moveSpeed, strafeSpeed;
+        private float moveSpeed, strafeSpeed, groundPos, jumpHeight;
+        bool IsJumpingUp;
         private KeyboardManager keyboardManager;
         private Keys[] moveKeys;
         #endregion Fields
@@ -29,7 +32,9 @@ namespace GDLibrary.MyGame
             this.moveKeys = moveKeys;
             this.moveSpeed = moveSpeed;
             this.strafeSpeed = strafeSpeed;
-
+            this.groundPos = transform.Translation.Y;
+            this.jumpHeight = GameConstants.playerJumpHeight;
+            this.IsJumpingUp = false;
             //for movement
             this.keyboardManager = keyboardManager;
         }
@@ -79,18 +84,37 @@ namespace GDLibrary.MyGame
 
             if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
             {
-                Transform3D.TranslateIncrement =
-                    -Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * moveSpeed;
+                Transform3D.TranslateIncrement +=
+                    -Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * strafeSpeed;
                 //Transform3D.RotateIncrement = gameTime.ElapsedGameTime.Milliseconds * rotationSpeed;
             }
             else if (keyboardManager.IsKeyDown(moveKeys[3])) //Right
             {
-                Transform3D.TranslateIncrement =
-                    Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * moveSpeed;
+                Transform3D.TranslateIncrement +=
+                    Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * strafeSpeed;
             }
-            if (keyboardManager.IsKeyDown(moveKeys[4])) //jump
+            if (keyboardManager.IsFirstKeyPress(moveKeys[4])) //jump
             {
-                //Figure out jumping
+                System.Diagnostics.Debug.WriteLine("Jump button pressed");
+                if (!IsJumpingUp)
+                {
+                    IsJumpingUp = true;
+                }
+            }
+            if (Transform3D.Translation.Y < jumpHeight && IsJumpingUp) 
+            {
+                System.Diagnostics.Debug.WriteLine("Moving Up");
+                Transform3D.TranslateIncrement +=
+                        Transform3D.Up * gameTime.ElapsedGameTime.Milliseconds * strafeSpeed;
+            }
+            if (Transform3D.Translation.Y >= jumpHeight /*&& IsJumpingUp == true*/)
+                {
+                    IsJumpingUp = false;
+                }
+            if (Transform3D.Translation.Y > groundPos && !IsJumpingUp) 
+            {
+                Transform3D.TranslateIncrement -=
+                        Transform3D.Up * gameTime.ElapsedGameTime.Milliseconds * strafeSpeed;
             }
         }
 

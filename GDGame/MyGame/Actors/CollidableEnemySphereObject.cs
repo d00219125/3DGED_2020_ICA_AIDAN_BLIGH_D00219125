@@ -89,13 +89,13 @@ namespace GDGame.MyGame.Actors
                 if (this.Transform3D.Translation.Y <= minYRange)
                 {
                     moveDown = false;
-                    Debug.WriteLine("changing direction to up");
+                    //Debug.WriteLine("changing direction to up");
                 }
                 
                 else
                 {
                     this.Transform3D.TranslateBy(new Vector3(0,-moveSpeed, 0));
-                    Debug.WriteLine("position = " + this.Transform3D.Translation.Y);
+                    //Debug.WriteLine("position = " + this.Transform3D.Translation.Y);
                 }
             }
             else
@@ -103,12 +103,12 @@ namespace GDGame.MyGame.Actors
                if (this.Transform3D.Translation.Y >= maxYRange)
                 {
                     moveDown = true;
-                    Debug.WriteLine("changing direction to down");
+                    //Debug.WriteLine("changing direction to down");
                 }
                 else
                 {
                     this.Transform3D.TranslateBy(new Vector3( 0,moveSpeed, 0));
-                    Debug.WriteLine("position = " + this.Transform3D.Translation.Y);
+                    //Debug.WriteLine("position = " + this.Transform3D.Translation.Y);
                 }
             }
 

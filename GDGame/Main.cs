@@ -1070,7 +1070,7 @@ namespace GDGame
                     GameConstants.KeysOne,
                     GameConstants.playerMoveSpeed,
                     GameConstants.playerStrafeSpeed,
-                    keyboardManager);;
+                    keyboardManager);
 
             objectManager.Add(collidablePlayerObject);
         }
