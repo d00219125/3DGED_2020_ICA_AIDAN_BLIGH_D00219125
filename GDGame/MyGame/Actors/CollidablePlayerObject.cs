@@ -37,6 +37,8 @@ namespace GDLibrary.MyGame
             this.IsJumpingUp = false;
             //for movement
             this.keyboardManager = keyboardManager;
+            
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -128,7 +130,7 @@ namespace GDLibrary.MyGame
                 CollidableZoneObject simpleZoneObject = collidee as CollidableZoneObject;
 
                 //do something based on the zone type - see Main::InitializeCollidableZones() for ID
-                if (simpleZoneObject.ID.Equals("sound and camera trigger zone 1"))
+                if (simpleZoneObject.ID.Equals("finish line"))
                 {
                     //publish an event e.g sound, health progress
                     object[] parameters = { "win" };

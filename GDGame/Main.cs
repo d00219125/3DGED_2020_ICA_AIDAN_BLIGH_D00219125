@@ -178,6 +178,7 @@ namespace GDGame
             //add more levels here...
 
             //sky
+            textureDictionary.Load("Assets/Textures/Skybox/SquareFloor");
             textureDictionary.Load("Assets/Textures/Skybox/SquareWall");
             textureDictionary.Load("Assets/Textures/Skybox/back");
             textureDictionary.Load("Assets/Textures/Skybox/left");
@@ -194,7 +195,7 @@ namespace GDGame
 
             //props
             textureDictionary.Load("Assets/Textures/Props/Crates/crate1");
-
+            textureDictionary.Load("Assets/Textures/Props/PyramidTexture");
             //menu
             textureDictionary.Load("Assets/Textures/UI/Controls/genericbtn");
             textureDictionary.Load("Assets/Textures/UI/Backgrounds/mainmenu");
@@ -584,11 +585,10 @@ namespace GDGame
 
             //attach a controller
             camera3D.ControllerList.Add(new ThirdPersonController(
-                GameConstants.Controllers_CollidableThirdPerson,
-                ControllerType.ThirdPerson,
+                GameConstants.Controllers_CollidableThirdPerson, ControllerType.ThirdPerson,
                 collidablePlayerObject,
-                135,
-                40,
+                165,
+                GameConstants.playerCamOffsetX,
                 1,
                 mouseManager));
             cameraManager.Add(camera3D);
@@ -706,7 +706,7 @@ namespace GDGame
             transform3D = new Transform3D(Vector3.Zero, Vector3.Zero,
                  Vector3.One, Vector3.UnitZ, Vector3.UnitY);
             effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
-                textureDictionary["checkerboard"], Color.White, 1);
+                textureDictionary["PyramidTexture"], Color.White, 1);
 
             VertexPositionNormalTexture[] vertices
                 = VertexFactory.GetVerticesPositionNormalTexturedPyramid(out primitiveType,
@@ -931,7 +931,6 @@ namespace GDGame
 
         private void InitializeCollidableHexagons()
         {
-            //clone the archetypal pyramid
             PrimitiveObject drawnActor3D = archetypeDictionary[GameConstants.Primitive_LitTexturedHexagon].Clone() as PrimitiveObject;
             Transform3D transform3D = null;
             EffectParameters effectParameters = null;
@@ -940,7 +939,7 @@ namespace GDGame
 
             //set the position
             transform3D =
-                new Transform3D(new Vector3(0, 5, 0), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(new Vector3(30, 1, 0), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
 
             //a unique effectparameters instance for each box in case we want different color, texture, alpha
             effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_UnlitWireframe],
@@ -949,7 +948,9 @@ namespace GDGame
 
             //get the vertex data object
             vertexData = drawnActor3D.IVertexData;
-            collisionPrimitive = new BoxCollisionPrimitive(transform3D);
+            Transform3D collisionBox = 
+                new Transform3D(transform3D.Translation,Vector3.Zero, new Vector3(20,1,10),-Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
             CollidablePrimitiveObject HexObject = new CollidablePrimitiveObject("enemy Hex", ActorType.NPC, StatusType.Drawn | StatusType.Update, transform3D, effectParameters, vertexData, collisionPrimitive, objectManager);
             //CollidableEnemySphereObject sphereObject = new CollidableEnemySphereObject("enemy Hex", ActorType.NPC, StatusType.Drawn | StatusType.Update,transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1, 20);
 
@@ -978,9 +979,7 @@ namespace GDGame
             collisionPrimitive = new SphereCollisionPrimitive(transform3D, 5);
             CollidableEnemySphereObject sphereObject = new CollidableEnemySphereObject("enemy sphere", ActorType.NPC, StatusType.Drawn | StatusType.Update,
                 transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1, 20);
-            //CollidableEnemyPyramidObject sphereObject = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | 
-            //    StatusType.Update,
-            //    transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1f, 0f);
+
             objectManager.Add(sphereObject);
         }
 
@@ -1000,7 +999,7 @@ namespace GDGame
 
             //a unique effectparameters instance for each box in case we want different color, texture, alpha
             effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
-                textureDictionary["checkerboard"], Color.White, 1);
+                textureDictionary["PyramidTexture"], Color.White, 1);
 
             vertexData = drawnActor3D.IVertexData;
 
@@ -1036,8 +1035,8 @@ namespace GDGame
 
             //set the position
             transform3D = 
-                new Transform3D(GameConstants.playerStartPos, Vector3.Zero, new Vector3(3, 6, 3),-Vector3.UnitZ, Vector3.UnitY);
-
+                new Transform3D(GameConstants.playerStartPos, Vector3.Zero, new Vector3(3,3, 6),-Vector3.UnitZ, Vector3.UnitY);
+            transform3D.RotateAroundUpBy(0);
             //a unique effectparameters instance for each box in case we want different color, texture, alpha
             effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
                 textureDictionary["BlockyTexture"], Color.White, 1);
@@ -1215,7 +1214,7 @@ namespace GDGame
         {
             PrimitiveObject drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
             drawnActor3D.ActorType = ActorType.Ground;
-            drawnActor3D.EffectParameters.Texture = textureDictionary["grass1"];
+            drawnActor3D.EffectParameters.Texture = textureDictionary["SquareFloor"];
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(-90, 0, 0);
             drawnActor3D.Transform3D.Scale = worldScale * Vector3.One;
             objectManager.Add(drawnActor3D);
