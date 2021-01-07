@@ -258,6 +258,39 @@ namespace GDLibrary.Factories
             return vertices;
         }
 
+        public static VertexPositionColor[] GetColoredHex(out PrimitiveType primitiveType, out int primitiveCount)
+        {
+            VertexPositionColor[] vertices = new VertexPositionColor[18];
+            vertices[0] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Yellow); //Top A
+            vertices[1] = new VertexPositionColor(new Vector3( 1, 0,  .5f), Color.Yellow); //upper right B
+            vertices[2] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Yellow); //Centre G
+
+            vertices[3] = new VertexPositionColor(new Vector3(1, 0, .5f), Color.White); //upper right B
+            vertices[4] = new VertexPositionColor(new Vector3(1, 0, -.5f), Color.White); //lower Right C
+            vertices[5] = new VertexPositionColor(new Vector3(0, 0, 0), Color.White); //Centre G
+
+            vertices[6] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Black); //Centre G
+            vertices[7] = new VertexPositionColor(new Vector3(1, 0, -.5f), Color.Black); //lower Right C
+            vertices[8] = new VertexPositionColor(new Vector3(0, 0, -1), Color.Black); //Bottom D
+            
+            vertices[9] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Green); //Centre G
+            vertices[10] = new VertexPositionColor(new Vector3(0, 0, -1), Color.Green); //Bottom D
+            vertices[11] = new VertexPositionColor(new Vector3(-1, 0, -.5f), Color.Green); //lower left E
+
+            vertices[12] = new VertexPositionColor(new Vector3(-1, 0, .5f), Color.Blue); //upper left F
+            vertices[13] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Blue); //Centre G
+            vertices[14] = new VertexPositionColor(new Vector3(-1, 0, -.5f), Color.Blue); //lower left E
+
+            vertices[17] = new VertexPositionColor(new Vector3(0, 0, 1), Color.Red); //Top A
+            vertices[15] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Red); //Centre G
+            vertices[16] = new VertexPositionColor(new Vector3(-1, 0, .5f), Color.Red); //upper left F
+
+            primitiveType = PrimitiveType.TriangleStrip;
+            primitiveCount = 6;
+
+            return vertices;
+        }
+
         //TriangleStrip
         public static VertexPositionColorTexture[] GetTextureQuadVertices(out PrimitiveType primitiveType, out int primitiveCount)
         {
