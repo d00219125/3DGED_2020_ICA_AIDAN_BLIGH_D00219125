@@ -67,22 +67,22 @@ namespace GDLibrary.MyGame
 
         protected override void HandleStrafe(GameTime gameTime)
         {
-            //Transform3D.TranslateIncrement
-            //        = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-            //                * moveSpeed;
-            if (keyboardManager.IsKeyDown(moveKeys[0])) //Forward
-            {
-                Transform3D.TranslateIncrement
+            Transform3D.TranslateIncrement
                     = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
                             * moveSpeed;
-            }
+            //if (keyboardManager.IsKeyDown(moveKeys[0])) //Forward
+            //{
+            //    Transform3D.TranslateIncrement
+            //        = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
+            //                * moveSpeed;
+            //}
 
-            else if (keyboardManager.IsKeyDown(moveKeys[1])) //Backward
-            {
-                Transform3D.TranslateIncrement
-                   = -Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-                           * moveSpeed;
-            }
+            //else if (keyboardManager.IsKeyDown(moveKeys[1])) //Backward
+            //{
+            //    Transform3D.TranslateIncrement
+            //       = -Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
+            //               * moveSpeed;
+            //}
 
             if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
             {
@@ -153,12 +153,12 @@ namespace GDLibrary.MyGame
                 //the boxes on the right that move up and down
                 else if (collidee.ActorType == ActorType.CollidableDecorator)
                 {
-                    (collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Blue;
+                    //(collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Blue;
 
                 }
                 else if (collidee.ActorType == ActorType.NPC) 
                 {
-                    (collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Black;
+                    //(collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Black;
                 }
             }
             

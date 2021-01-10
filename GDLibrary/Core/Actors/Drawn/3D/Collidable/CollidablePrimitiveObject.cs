@@ -138,6 +138,7 @@ namespace GDLibrary.Actors
 
         public override void Update(GameTime gameTime)
         {
+
             //update collision primitive with new object position
             if (collisionPrimitive != null)
             {

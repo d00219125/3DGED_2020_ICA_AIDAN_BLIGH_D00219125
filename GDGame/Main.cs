@@ -955,6 +955,49 @@ namespace GDGame
             //CollidableEnemySphereObject sphereObject = new CollidableEnemySphereObject("enemy Hex", ActorType.NPC, StatusType.Drawn | StatusType.Update,transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1, 20);
 
             objectManager.Add(HexObject);
+
+            transform3D =
+               new Transform3D(new Vector3(-400, 1, 222), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+            CollidablePrimitiveObject HexObject2 = new CollidablePrimitiveObject("enemy Hex", ActorType.NPC, StatusType.Drawn
+                | StatusType.Update, transform3D, effectParameters, vertexData, collisionPrimitive, objectManager);
+            objectManager.Add(HexObject2);
+
+            transform3D =
+               new Transform3D(new Vector3(-370, 1, 119), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionBox =
+                new Transform3D(transform3D.Translation, Vector3.Zero, new Vector3(20, 1, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
+            CollidablePrimitiveObject HexObject3 = new CollidablePrimitiveObject("enemy Hex", ActorType.NPC, StatusType.Drawn
+                | StatusType.Update, transform3D, effectParameters, vertexData, collisionPrimitive, objectManager);
+            objectManager.Add(HexObject3);
+
+            transform3D =
+               new Transform3D(new Vector3(-420, 1, 60), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionBox =
+                new Transform3D(transform3D.Translation, Vector3.Zero, new Vector3(20, 1, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
+            CollidablePrimitiveObject HexObject4 = new CollidablePrimitiveObject("enemy Hex", ActorType.NPC, StatusType.Drawn
+                | StatusType.Update, transform3D, effectParameters, vertexData, collisionPrimitive, objectManager);
+            objectManager.Add(HexObject4);
+
+            transform3D =
+               new Transform3D(new Vector3(-420, 1, -290), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionBox =
+                new Transform3D(transform3D.Translation, Vector3.Zero, new Vector3(20, 1, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
+            CollidablePrimitiveObject HexObject5 = new CollidablePrimitiveObject("enemy Hex", ActorType.NPC, StatusType.Drawn
+                | StatusType.Update, transform3D, effectParameters, vertexData, collisionPrimitive, objectManager);
+            objectManager.Add(HexObject5);
+
+            transform3D =
+               new Transform3D(new Vector3(-420, 1, -400), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionBox =
+                new Transform3D(transform3D.Translation, Vector3.Zero, new Vector3(20, 1, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
+            CollidablePrimitiveObject HexObject6 = new CollidablePrimitiveObject("enemy Hex", ActorType.NPC, StatusType.Drawn
+                | StatusType.Update, transform3D, effectParameters, vertexData, collisionPrimitive, objectManager);
+            objectManager.Add(HexObject6);
+
         }
 
         private void InitializeCollidableSpheres()
@@ -977,10 +1020,34 @@ namespace GDGame
             //get the vertex data object
             vertexData = drawnActor3D.IVertexData;
             collisionPrimitive = new SphereCollisionPrimitive(transform3D, 5);
+            
             CollidableEnemySphereObject sphereObject = new CollidableEnemySphereObject("enemy sphere", ActorType.NPC, StatusType.Drawn | StatusType.Update,
                 transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1, 20);
 
             objectManager.Add(sphereObject);
+
+            //set the position
+           
+            transform3D =
+                new Transform3D(new Vector3(-375, 15, -110), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new SphereCollisionPrimitive(transform3D, 5);
+            CollidableEnemySphereObject sphereObject2 = new CollidableEnemySphereObject("enemy sphere", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1, 20);
+            objectManager.Add(sphereObject2);
+
+            transform3D =
+                new Transform3D(new Vector3(-415, 15, -51), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new SphereCollisionPrimitive(transform3D, 5);
+            CollidableEnemySphereObject sphereObject3 = new CollidableEnemySphereObject("enemy sphere", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1, 10);
+            objectManager.Add(sphereObject3);
+
+            transform3D =
+                new Transform3D(new Vector3(-395, 15, -216), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new SphereCollisionPrimitive(transform3D, 5);
+            CollidableEnemySphereObject sphereObject4 = new CollidableEnemySphereObject("enemy sphere", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, drawnActor3D.EffectParameters, drawnActor3D.IVertexData, collisionPrimitive, objectManager, 1, 4f);
+            objectManager.Add(sphereObject4);
         }
 
         private void InitializeCollidablePyramids()
@@ -995,7 +1062,7 @@ namespace GDGame
 
             //set the position
             transform3D =
-                new Transform3D(new Vector3(10,0,10), Vector3.Zero, new Vector3(3, 6, 3), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(new Vector3(-395,0,350), Vector3.Zero, new Vector3(15, 16, 15), -Vector3.UnitZ, Vector3.UnitY);
 
             //a unique effectparameters instance for each box in case we want different color, texture, alpha
             effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
@@ -1004,20 +1071,26 @@ namespace GDGame
             vertexData = drawnActor3D.IVertexData;
 
             //make a CDCR surface - sphere or box, its up to you - you dont need to pass transform to either primitive anymore
-            collisionPrimitive = new SphereCollisionPrimitive(transform3D, 1);
+            collisionPrimitive = new BoxCollisionPrimitive(transform3D);
 
             CollidableEnemyPyramidObject pyramidObject = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | StatusType.Update,
-                transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1f, 20f);
+                transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1f, 30f);
             objectManager.Add(pyramidObject);
-            ////change it a bit
-            //drawnActor3D.ID = "enemy_pyramid";
-            //drawnActor3D.Transform3D.Scale = 10 * new Vector3(1, 1, 1);
-            //drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, 0, 0);
-            //drawnActor3D.Transform3D.Translation = new Vector3(0, 0, 0);
-            //drawnActor3D.EffectParameters.Alpha = 0.5f;
-            //RailParameters path = new RailParameters("pyramid Rail", new Vector3(-10, 0, 0), new Vector3(10, 0, 0));
-            
-            //objectManager.Add(drawnActor3D);
+
+            transform3D =
+                new Transform3D(new Vector3(-395, 0, 167), Vector3.Zero, new Vector3(15, 16, 15), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(transform3D);
+            CollidableEnemyPyramidObject pyramidObject2 = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, .75f, 30f);
+            objectManager.Add(pyramidObject2);
+
+            transform3D =
+               new Transform3D(new Vector3(-370, 0, -340), Vector3.Zero, new Vector3(15, 16, 15), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(transform3D);
+            CollidableEnemyPyramidObject pyramidObject3 = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, .75f, 15f);
+            objectManager.Add(pyramidObject3);
+
         }
 
 
@@ -1189,6 +1262,9 @@ namespace GDGame
             drawnActor3D.Transform3D.Translation = new Vector3(0, 10, 0);
             drawnActor3D.EffectParameters.Alpha = 0.5f;
 
+            /*
+             * 
+             */
             //lets add a rotation controller so we can see all sides easily
             drawnActor3D.ControllerList.Add(
                 new RotationController("rot controller1", ControllerType.RotationOverTime,

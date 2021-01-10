@@ -22,6 +22,7 @@ namespace GDGame
 
         public static readonly string Primitive_LitTexturedSphere = "lit textured Sphere";
         public static readonly string Primitive_LitTexturedHexagon = "lit textured Hexagon";
+        public static readonly string Primitive_UnlitTexturedPyramid = "lit textured pyramid";
 
         public static readonly string Effect_UnlitTextured = "unlit textured";
         public static readonly string Effect_LitTextured = "lit textured";
@@ -101,8 +102,8 @@ namespace GDGame
         //#endregion Player
 
         #region Player
-        public static readonly Vector3 playerStartPos = new Vector3(0, 2, 0);
-        public static readonly float playerMoveSpeed = .025f;
+        public static readonly Vector3 playerStartPos = new Vector3(-395, 2, 477);
+        public static readonly float playerMoveSpeed = .05f;
         public static readonly float playerStrafeSpeed = .015f;
         public static readonly float playerCamOffsetX = 30;
         public static readonly float playerCamOffsetY = 10;
