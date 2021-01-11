@@ -108,7 +108,7 @@ namespace GDGame
         public static readonly float playerCamOffsetX = 30;
         public static readonly float playerCamOffsetY = 10;
         public static readonly float playerJumpHeight = 10;
-        public static readonly Keys[] playerJumpButton = { Keys.Space };
+        //public static readonly Keys[] playerJumpButton = { Keys.Space };
         #endregion Player
 
         #region Level

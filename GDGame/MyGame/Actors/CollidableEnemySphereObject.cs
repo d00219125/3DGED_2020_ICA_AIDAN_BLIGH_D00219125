@@ -39,7 +39,7 @@ namespace GDGame.MyGame.Actors
             this.maxXRange = transform.Translation.X + movenentRange+1;
             this.minXRange = transform.Translation.X - movenentRange;
             this.maxYRange = transform.Translation.Y +1;
-            this.minYRange = 0f;
+            this.minYRange = 5f;
         }
 
         public override void Update(GameTime gameTime)
