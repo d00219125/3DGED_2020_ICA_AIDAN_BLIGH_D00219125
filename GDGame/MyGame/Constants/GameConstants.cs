@@ -102,7 +102,8 @@ namespace GDGame
         //#endregion Player
 
         #region Player
-        public static readonly Vector3 playerStartPos = new Vector3(-395, 2, 477);
+        public static readonly Vector3 playerLevel1StartPos = new Vector3(-395, 2, 477);
+        public static readonly Vector3 playerLevel2StartPos = new Vector3(270, 2, 475);
         public static readonly float playerMoveSpeed = .05f;
         public static readonly float playerStrafeSpeed = .015f;
         public static readonly float playerCamOffsetX = 30;

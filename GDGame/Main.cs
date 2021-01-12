@@ -882,7 +882,7 @@ namespace GDGame
 
             //InitCollidablePickups();
 
-            //InitCollidableZones();
+            InitCollidableZones();
 
            
 
@@ -1211,7 +1211,7 @@ namespace GDGame
 
             //set the position
             transform3D = 
-                new Transform3D(GameConstants.playerStartPos, Vector3.Zero, new Vector3(3,3, 6),-Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(GameConstants.playerLevel1StartPos, Vector3.Zero, new Vector3(3,3, 6),-Vector3.UnitZ, Vector3.UnitY);
             transform3D.RotateAroundUpBy(0);
             //a unique effectparameters instance for each box in case we want different color, texture, alpha
             effectParameters = new EffectParameters(effectDictionary[GameConstants.Effect_LitTextured],
@@ -1251,13 +1251,13 @@ namespace GDGame
             ICollisionPrimitive collisionPrimitive = null;
             CollidableZoneObject collidableZoneObject = null;
 
-            transform3D = new Transform3D(new Vector3(0, 4, -30),
-                Vector3.Zero, new Vector3(20, 8, 4), Vector3.UnitZ, Vector3.UnitY);
+            transform3D = new Transform3D(new Vector3(-390, 4, -490),
+                Vector3.Zero, new Vector3(120, 8, 30), Vector3.UnitZ, Vector3.UnitY);
 
             //make the collision primitive - changed slightly to no longer need transform
             collisionPrimitive = new BoxCollisionPrimitive(transform3D);
 
-            collidableZoneObject = new CollidableZoneObject("sound and camera trigger zone 1", ActorType.CollidableZone,
+            collidableZoneObject = new CollidableZoneObject("finish line 1", ActorType.CollidableZone,
                 StatusType.Drawn | StatusType.Update,
                 transform3D,
                 collisionPrimitive);
@@ -1403,17 +1403,28 @@ namespace GDGame
         private void InitWalls(float worldScale)
         {
             PrimitiveObject drawnActor3D = null;
-
+            ICollisionPrimitive collisionPrimitive = null;
+            
             //left wall on level 1
             drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
             drawnActor3D.ActorType = ActorType.CollidableZone;
+
+          
 
             drawnActor3D.ID = "left level1";
             drawnActor3D.EffectParameters.Texture = textureDictionary["SquareWall"]; ;
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale/2, 1);
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, 90, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(-worldScale / 2.2f, 0, 0);
-            objectManager.Add(drawnActor3D);
+            //objectManager.Add(drawnActor3D);
+            Transform3D collisionBox =
+                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(10, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
+
+            CollidablePrimitiveObject collidablePrimitive = new CollidablePrimitiveObject(drawnActor3D.ID, ActorType.CollidableGround,
+                StatusType.Drawn | StatusType.Update, drawnActor3D.Transform3D, drawnActor3D.EffectParameters,
+                drawnActor3D.IVertexData, collisionPrimitive, objectManager);
+            objectManager.Add(collidablePrimitive);
 
             //left wall on level 2
             drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
@@ -1424,7 +1435,16 @@ namespace GDGame
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale / 2, 1);
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, 90, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(worldScale / 5.0f, 0, 0);
-            objectManager.Add(drawnActor3D);
+            //objectManager.Add(drawnActor3D);
+
+             collisionBox =
+                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(10, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
+
+            CollidablePrimitiveObject collidablePrimitive2 = new CollidablePrimitiveObject(drawnActor3D.ID, ActorType.CollidableGround,
+                StatusType.Drawn | StatusType.Update, drawnActor3D.Transform3D, drawnActor3D.EffectParameters,
+                drawnActor3D.IVertexData, collisionPrimitive, objectManager);
+            objectManager.Add(collidablePrimitive2);
 
             //right wall on level 1
             drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
@@ -1435,7 +1455,15 @@ namespace GDGame
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale /2, 1);
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, -90, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(-worldScale / 3.0f, 0, 0);
-            objectManager.Add(drawnActor3D);
+            //objectManager.Add(drawnActor3D);
+             collisionBox =
+                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(10, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
+
+            CollidablePrimitiveObject collidablePrimitive3 = new CollidablePrimitiveObject(drawnActor3D.ID, ActorType.CollidableGround,
+                StatusType.Drawn | StatusType.Update, drawnActor3D.Transform3D, drawnActor3D.EffectParameters,
+                drawnActor3D.IVertexData, collisionPrimitive, objectManager);
+            objectManager.Add(collidablePrimitive3);
 
             //right wall on level 2
             drawnActor3D = archetypeDictionary[GameConstants.Primitive_UnlitTexturedQuad].Clone() as PrimitiveObject;
@@ -1446,7 +1474,16 @@ namespace GDGame
             drawnActor3D.Transform3D.Scale = new Vector3(worldScale, worldScale / 2, 1);
             drawnActor3D.Transform3D.RotationInDegrees = new Vector3(0, -90, 0);
             drawnActor3D.Transform3D.Translation = new Vector3(worldScale / 3.0f, 0, 0);
-            objectManager.Add(drawnActor3D);
+            //objectManager.Add(drawnActor3D);
+            collisionBox =
+                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(10, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
+
+            CollidablePrimitiveObject collidablePrimitive4 = new CollidablePrimitiveObject(drawnActor3D.ID, ActorType.CollidableGround,
+                StatusType.Drawn | StatusType.Update, drawnActor3D.Transform3D, drawnActor3D.EffectParameters,
+                drawnActor3D.IVertexData, collisionPrimitive, objectManager);
+            objectManager.Add(collidablePrimitive4);
+
         }
 
         private void InitSkybox(float worldScale)

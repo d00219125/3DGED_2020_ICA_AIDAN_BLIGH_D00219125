@@ -18,7 +18,7 @@ namespace GDLibrary.MyGame
     {
         #region Fields
         private float moveSpeed, strafeSpeed, groundPos, jumpHeight;
-        bool IsJumpingUp;
+        bool IsJumpingUp, isOnLevel1;
         private KeyboardManager keyboardManager;
         private Keys[] moveKeys;
         #endregion Fields
@@ -37,7 +37,7 @@ namespace GDLibrary.MyGame
             this.IsJumpingUp = false;
             //for movement
             this.keyboardManager = keyboardManager;
-            
+            this.isOnLevel1 = true;
             
         }
 
@@ -97,6 +97,9 @@ namespace GDLibrary.MyGame
             }
             if (keyboardManager.IsFirstKeyPress(moveKeys[4])) //jump
             {
+                object[] parameters = { "jump" };
+                EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
+                    EventActionType.OnPlay2D, parameters));
                 System.Diagnostics.Debug.WriteLine("Jump button pressed");
                 if (!IsJumpingUp)
                 {
@@ -130,14 +133,27 @@ namespace GDLibrary.MyGame
                 CollidableZoneObject simpleZoneObject = collidee as CollidableZoneObject;
 
                 //do something based on the zone type - see Main::InitializeCollidableZones() for ID
-                if (simpleZoneObject.ID.Equals("finish line"))
+                if (simpleZoneObject.ID.Equals("finish line 1"))
+                {
+                    //publish an event e.g sound, health progress
+                    object[] parameters = { "win" };
+                    EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
+                        EventActionType.OnPlay2D, parameters));
+                    
+                    Transform3D.Translation = GameConstants.playerLevel2StartPos;
+                    isOnLevel1 = false;
+                    //object[] parameters2 = { "move to level 2" };
+                    //EventDispatcher.Publish(new EventData(EventCategoryType.Player,
+                    //    EventActionType.OnPlay2D, parameters2));
+                }
+
+                if (simpleZoneObject.ID.Equals("finish line 2"))
                 {
                     //publish an event e.g sound, health progress
                     object[] parameters = { "win" };
                     EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
                         EventActionType.OnPlay2D, parameters));
                 }
-
                 //IMPORTANT - setting this to null means that the ApplyInput() method will get called and the player can move through the zone.
                 Collidee = null;
             }
@@ -156,12 +172,34 @@ namespace GDLibrary.MyGame
                     //(collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Blue;
 
                 }
-                else if (collidee.ActorType == ActorType.NPC) 
+                else if (collidee.ActorType == ActorType.NPC)
                 {
+                    object[] parameters = { "Die" };
+                    EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
+                        EventActionType.OnPlay2D, parameters));
+                    respawn();
                     //(collidee as DrawnActor3D).EffectParameters.DiffuseColor = Color.Black;
+                }
+                else if (collidee.ActorType == ActorType.CollidableGround) 
+                {
+                    object[] parameters = { "bump" };
+                    EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
+                        EventActionType.OnPlay2D, parameters));
                 }
             }
             
+        }
+        private void respawn() 
+        {
+
+            if (isOnLevel1)
+            {
+                Transform3D.Translation = GameConstants.playerLevel1StartPos;
+            }
+            else 
+            {
+                Transform3D.Translation = GameConstants.playerLevel2StartPos;
+            }
         }
     }
 }
