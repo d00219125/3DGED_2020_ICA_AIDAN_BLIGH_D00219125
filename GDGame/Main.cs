@@ -250,9 +250,7 @@ namespace GDGame
             LoadFonts();
             LoadSounds();
 
-            //ui
-            InitUI();
-            InitMenu();
+            
 
             //add archetypes that can be cloned
             InitArchetypes();
@@ -266,6 +264,9 @@ namespace GDGame
 
             //cameras - notice we moved the camera creation BELOW where we created the drawn content - see DriveController
             InitCameras3D();
+            //ui
+            InitUI();
+            InitMenu();
 
             #region Debug
 #if DEBUG
@@ -671,7 +672,7 @@ namespace GDGame
 
             #endregion Noncollidable Camera - Curve3D
 
-            cameraManager.ActiveCameraIndex = 0; //0, 1, 2, 3
+            cameraManager.ActiveCameraIndex = 4; //0, 1, 2, 3
         }
 
         #endregion Initialization - Graphics, Managers, Dictionaries, Cameras, Menu, UI

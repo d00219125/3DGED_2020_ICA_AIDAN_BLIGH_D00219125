@@ -7,6 +7,7 @@ using GDLibrary.Managers;
 using GDLibrary.Parameters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Diagnostics;
 
 namespace GDLibrary.MyGame
@@ -18,9 +19,10 @@ namespace GDLibrary.MyGame
     {
         #region Fields
         private float moveSpeed, strafeSpeed, groundPos, jumpHeight;
-        bool IsJumpingUp, isOnLevel1;
+        bool IsJumpingUp, isOnLevel1, isPlayerPaused, coolingDown;
         private KeyboardManager keyboardManager;
         private Keys[] moveKeys;
+        double restTime;
         #endregion Fields
 
         public CollidablePlayerObject(string id, ActorType actorType, StatusType statusType, Transform3D transform,
@@ -38,11 +40,27 @@ namespace GDLibrary.MyGame
             //for movement
             this.keyboardManager = keyboardManager;
             this.isOnLevel1 = true;
-            
+            this.isPlayerPaused = true;
+            this.coolingDown = false;
         }
 
         public override void Update(GameTime gameTime)
         {
+            // if (gameTime.ElapsedGameTime.TotalSeconds > 12) { }
+            if (gameTime.TotalGameTime.TotalSeconds > 15 && isOnLevel1)
+            {
+                this.isPlayerPaused = false;
+            }
+            if (!isOnLevel1 && isPlayerPaused && !coolingDown) 
+            {
+                //gameTime.TotalGameTime.Negate();
+                startCooldown(gameTime);
+                coolingDown = true;
+            }
+            else if (!isOnLevel1&& gameTime.TotalGameTime.TotalSeconds >= restTime ) 
+            {
+                this.isPlayerPaused = false;
+            }
             //makes player move foreward
             //Transform3D.TranslateIncrement = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds* moveSpeed;
             //read any input and store suggested increments
@@ -65,9 +83,16 @@ namespace GDLibrary.MyGame
             base.Update(gameTime);
         }
 
+        private void startCooldown(GameTime gameTime)
+        {
+            this.restTime = gameTime.TotalGameTime.TotalSeconds + 5.0;
+        }
+
         protected override void HandleStrafe(GameTime gameTime)
         {
-            Transform3D.TranslateIncrement
+            if (!isPlayerPaused) 
+            {
+                Transform3D.TranslateIncrement
                     = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
                             * moveSpeed;
             //if (keyboardManager.IsKeyDown(moveKeys[0])) //Forward
@@ -84,7 +109,8 @@ namespace GDLibrary.MyGame
             //               * moveSpeed;
             //}
 
-            if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
+           
+                if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
             {
                 Transform3D.TranslateIncrement +=
                     -Transform3D.Right * gameTime.ElapsedGameTime.Milliseconds * strafeSpeed;
@@ -121,6 +147,8 @@ namespace GDLibrary.MyGame
                 Transform3D.TranslateIncrement -=
                         Transform3D.Up * gameTime.ElapsedGameTime.Milliseconds * strafeSpeed;
             }
+            }
+            
         }
 
         /********************************************************************************************/
@@ -142,6 +170,8 @@ namespace GDLibrary.MyGame
                     
                     Transform3D.Translation = GameConstants.playerLevel2StartPos;
                     isOnLevel1 = false;
+                    isPlayerPaused = true;
+
                     //object[] parameters2 = { "move to level 2" };
                     //EventDispatcher.Publish(new EventData(EventCategoryType.Player,
                     //    EventActionType.OnPlay2D, parameters2));
