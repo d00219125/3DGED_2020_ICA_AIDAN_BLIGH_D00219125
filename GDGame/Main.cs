@@ -129,16 +129,19 @@ namespace GDGame
 
         private void LoadSounds()
         {
-            soundManager.Add(new GDLibrary.Managers.Cue("smokealarm",
-                Content.Load<SoundEffect>("Assets/Audio/Effects/smokealarm1"), SoundCategoryType.Alarm, new Vector3(1, 0, 0), false));
+            //bumping into walls sound https://freesound.org/people/timgormly/sounds/170141/ by timgormly
             soundManager.Add(new GDLibrary.Managers.Cue("bump",
                 Content.Load<SoundEffect>("Assets/Audio/Effects/bump"), SoundCategoryType.Diegetic, new Vector3(1, 0, 0), false));
+            //Jumping sound https://freesound.org/people/sharesynth/sounds/344500/ by sharesynth
             soundManager.Add(new GDLibrary.Managers.Cue("jump",
                 Content.Load<SoundEffect>("Assets/Audio/Effects/Jump"), SoundCategoryType.Diegetic, new Vector3(1, 0, 0), false));
+            //Dying sound https://freesound.org/people/Mrthenoronha/sounds/506585/ by Mrthenoronha
             soundManager.Add(new GDLibrary.Managers.Cue("Die",
                 Content.Load<SoundEffect>("Assets/Audio/Effects/Die"), SoundCategoryType.Diegetic, new Vector3(1, 0, 0), false));
+            //victory jingle https://freesound.org/people/LittleRobotSoundFactory/sounds/270528/ by LittleRobotSoundFactory
             soundManager.Add(new GDLibrary.Managers.Cue("win",
                 Content.Load<SoundEffect>("Assets/Audio/Effects/win"), SoundCategoryType.WinLose, new Vector3(1, 0, 0), false));
+            //loss jingle https://freesound.org/people/LittleRobotSoundFactory/sounds/270334/ by LittleRobotSoundFactory
             soundManager.Add(new GDLibrary.Managers.Cue("lose",
                 Content.Load<SoundEffect>("Assets/Audio/Effects/lose"), SoundCategoryType.WinLose, new Vector3(1, 0, 0), false));
         }
@@ -268,13 +271,13 @@ namespace GDGame
             //cameras - notice we moved the camera creation BELOW where we created the drawn content - see DriveController
             InitCameras3D();
             //ui
-            InitUI();
+            //InitUI();
             InitMenu();
 
             #region Debug
 #if DEBUG
             //debug info
-            InitDebug();
+            //InitDebug();
 #endif
             #endregion Debug
 
@@ -339,7 +342,7 @@ namespace GDGame
                 new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height), //how much of source image do we want to draw?
                 mouseManager);
 
-            uiManager.Add(uiMouseObject);
+           // uiManager.Add(uiMouseObject);
             #endregion Mouse Reticule & Text
 
             #region Progress Control Left
@@ -389,7 +392,7 @@ namespace GDGame
             uiTextObject.ControllerList.Add(new UIMouseOverController("moc1", ControllerType.MouseOver,
                  mouseManager, Color.Red, Color.White));
 
-            uiManager.Add(uiTextObject);
+            //uiManager.Add(uiTextObject);
             #endregion Text Object
         }
 
@@ -644,11 +647,13 @@ namespace GDGame
             //create the camera curve to be applied to the track controller
             Transform3DCurve curveA = new Transform3DCurve(CurveLoopType.Cycle); //experiment with other CurveLoopTypes
             curveA.Add(new Vector3(-420, 30, 550), -Vector3.UnitZ, Vector3.UnitY, 0); //start
-            curveA.Add(new Vector3(-420, 30, 0), -Vector3.UnitZ, Vector3.UnitY, 3000); //start
-            curveA.Add(new Vector3(-420, 30, -350), new Vector3(0,-.45f,0), Vector3.UnitX, 6000); //start
+            curveA.Add(new Vector3(-410, 30, 0), -Vector3.UnitZ, Vector3.UnitY, 3000); //start
+            curveA.Add(new Vector3(-430, 30, -350), new Vector3(0,-.45f,0), Vector3.UnitX, 6000); //start
             curveA.Add(new Vector3(-420, 100, -350), Vector3.UnitX, Vector3.UnitX, 8000); //start
-            curveA.Add(new Vector3(225, 30, 550), -Vector3.UnitZ, Vector3.UnitY, 8001);
+            curveA.Add(new Vector3(225, 30, 520), -Vector3.UnitZ, Vector3.UnitY, 8001);
             curveA.Add(new Vector3(225, 30, 0), -Vector3.UnitZ, Vector3.UnitY, 12000);
+            curveA.Add(new Vector3(225, 30, -100), Vector3.UnitX, Vector3.UnitY, 13000);
+            curveA.Add(new Vector3(225, 30, -130), Vector3.UnitZ, Vector3.UnitY, 13500);
             //curveA.Add(new Vector3(0, 5, 80), new Vector3(1, 0, -1), Vector3.UnitY, 1000); //start position
             //curveA.Add(new Vector3(0, 5, 50), -Vector3.UnitZ, Vector3.UnitY, 3000); //start position
             //curveA.Add(new Vector3(0, 5, 20), new Vector3(-1, 0, -1), Vector3.UnitY, 4000); //start position
@@ -755,59 +760,59 @@ namespace GDGame
 
             #region Noncollidable Camera - First Person
 
-            transform3D = new Transform3D(new Vector3(10, 10, 20),
-                new Vector3(0, 0, -1), Vector3.UnitY);
+            //transform3D = new Transform3D(new Vector3(10, 10, 20),
+            //    new Vector3(0, 0, -1), Vector3.UnitY);
 
-            camera3D = new Camera3D(GameConstants.Camera_NonCollidableFirstPerson,
-                ActorType.Camera3D, StatusType.Update, transform3D,
-                ProjectionParameters.StandardDeepSixteenTen,
-                new Viewport(0, 0, 1024, 768));
+            //camera3D = new Camera3D(GameConstants.Camera_NonCollidableFirstPerson,
+            //    ActorType.Camera3D, StatusType.Update, transform3D,
+            //    ProjectionParameters.StandardDeepSixteenTen,
+            //    new Viewport(0, 0, 1024, 768));
 
-            //attach a controller
-            camera3D.ControllerList.Add(new FirstPersonController(
-                GameConstants.Controllers_NonCollidableFirstPerson,
-                ControllerType.FirstPerson,
-                keyboardManager, mouseManager,
-                GameConstants.moveSpeed, GameConstants.strafeSpeed, GameConstants.rotateSpeed));
-            cameraManager.Add(camera3D);
+            ////attach a controller
+            //camera3D.ControllerList.Add(new FirstPersonController(
+            //    GameConstants.Controllers_NonCollidableFirstPerson,
+            //    ControllerType.FirstPerson,
+            //    keyboardManager, mouseManager,
+            //    GameConstants.moveSpeed, GameConstants.strafeSpeed, GameConstants.rotateSpeed));
+            //cameraManager.Add(camera3D);
 
             #endregion Noncollidable Camera - First Person
 
             #region Noncollidable Camera - Flight
 
-            transform3D = new Transform3D(new Vector3(10, 10, 20),
-                new Vector3(0, 0, -1), Vector3.UnitY);
+            //transform3D = new Transform3D(new Vector3(10, 10, 20),
+            //    new Vector3(0, 0, -1), Vector3.UnitY);
 
-            camera3D = new Camera3D(GameConstants.Camera_NonCollidableFlight,
-                ActorType.Camera3D, StatusType.Update, transform3D,
-                ProjectionParameters.StandardDeepSixteenTen, new Viewport(0, 0, 1024, 768));
+            //camera3D = new Camera3D(GameConstants.Camera_NonCollidableFlight,
+            //    ActorType.Camera3D, StatusType.Update, transform3D,
+            //    ProjectionParameters.StandardDeepSixteenTen, new Viewport(0, 0, 1024, 768));
 
-            //attach a controller
-            camera3D.ControllerList.Add(new FlightCameraController(
-                GameConstants.Controllers_NonCollidableFlight, ControllerType.FlightCamera,
-                keyboardManager, mouseManager, null,
-                GameConstants.CameraMoveKeys,
-                10 * GameConstants.moveSpeed,
-                10 * GameConstants.strafeSpeed,
-                GameConstants.rotateSpeed));
-            cameraManager.Add(camera3D);
+            ////attach a controller
+            //camera3D.ControllerList.Add(new FlightCameraController(
+            //    GameConstants.Controllers_NonCollidableFlight, ControllerType.FlightCamera,
+            //    keyboardManager, mouseManager, null,
+            //    GameConstants.CameraMoveKeys,
+            //    10 * GameConstants.moveSpeed,
+            //    10 * GameConstants.strafeSpeed,
+            //    GameConstants.rotateSpeed));
+            //cameraManager.Add(camera3D);
 
             #endregion Noncollidable Camera - Flight
 
             #region Noncollidable Camera - Security
 
-            transform3D = new Transform3D(new Vector3(10, 10, 50),
-                        new Vector3(0, 0, -1),
-                        Vector3.UnitY);
+            //transform3D = new Transform3D(new Vector3(10, 10, 50),
+            //            new Vector3(0, 0, -1),
+            //            Vector3.UnitY);
 
-            camera3D = new Camera3D(GameConstants.Camera_NonCollidableSecurity,
-                ActorType.Camera3D, StatusType.Update, transform3D,
-            ProjectionParameters.StandardDeepSixteenTen, viewPort);
+            //camera3D = new Camera3D(GameConstants.Camera_NonCollidableSecurity,
+            //    ActorType.Camera3D, StatusType.Update, transform3D,
+            //ProjectionParameters.StandardDeepSixteenTen, viewPort);
 
-            camera3D.ControllerList.Add(new PanController(
-                GameConstants.Controllers_NonCollidableSecurity, ControllerType.Pan,
-                new Vector3(1, 1, 0), new TrigonometricParameters(30, GameConstants.mediumAngularSpeed, 0)));
-            cameraManager.Add(camera3D);
+            //camera3D.ControllerList.Add(new PanController(
+            //    GameConstants.Controllers_NonCollidableSecurity, ControllerType.Pan,
+            //    new Vector3(1, 1, 0), new TrigonometricParameters(30, GameConstants.mediumAngularSpeed, 0)));
+            //cameraManager.Add(camera3D);
 
             #endregion Noncollidable Camera - Security
 
@@ -829,7 +834,7 @@ namespace GDGame
 
             #endregion Noncollidable Camera - Curve3D
 
-            cameraManager.ActiveCameraIndex = 4; //0, 1, 2, 3
+            cameraManager.ActiveCameraIndex = 1; //0, 1, 2, 3
         }
 
         #endregion Initialization - Graphics, Managers, Dictionaries, Cameras, Menu, UI
@@ -1391,7 +1396,8 @@ namespace GDGame
             //make a CDCR surface - sphere or box, its up to you - you dont need to pass transform to either primitive anymore
             collisionPrimitive = new SphereCollisionPrimitive(transform3D, 1);
 
-            int lives = 3;
+            int lives = 4;//there's a bug that kills the player on initalization so always add +1 to how many lives you want
+
             //if we make this a field then we can pass to the 3rd person camera controller
             collidablePlayerObject
                 = new CollidablePlayerObject("collidable player1",
@@ -1599,7 +1605,7 @@ namespace GDGame
             drawnActor3D.Transform3D.Translation = new Vector3(-worldScale / 2.2f, 0, 0);
             //objectManager.Add(drawnActor3D);
             Transform3D collisionBox =
-                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(10, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(20, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
             collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
 
             CollidablePrimitiveObject collidablePrimitive = new CollidablePrimitiveObject(drawnActor3D.ID, ActorType.CollidableGround,
@@ -1619,7 +1625,7 @@ namespace GDGame
             //objectManager.Add(drawnActor3D);
 
              collisionBox =
-                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(10, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(20, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
             collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
 
             CollidablePrimitiveObject collidablePrimitive2 = new CollidablePrimitiveObject(drawnActor3D.ID, ActorType.CollidableGround,
@@ -1638,7 +1644,7 @@ namespace GDGame
             drawnActor3D.Transform3D.Translation = new Vector3(-worldScale / 3.0f, 0, 0);
             //objectManager.Add(drawnActor3D);
              collisionBox =
-                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(10, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(20, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
             collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
 
             CollidablePrimitiveObject collidablePrimitive3 = new CollidablePrimitiveObject(drawnActor3D.ID, ActorType.CollidableGround,
@@ -1657,7 +1663,7 @@ namespace GDGame
             drawnActor3D.Transform3D.Translation = new Vector3(worldScale / 3.0f, 0, 0);
             //objectManager.Add(drawnActor3D);
             collisionBox =
-                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(10, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(drawnActor3D.Transform3D.Translation, Vector3.Zero, new Vector3(20, 100, 1000), -Vector3.UnitZ, Vector3.UnitY);
             collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
 
             CollidablePrimitiveObject collidablePrimitive4 = new CollidablePrimitiveObject(drawnActor3D.ID, ActorType.CollidableGround,

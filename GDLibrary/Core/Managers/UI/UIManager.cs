@@ -63,6 +63,10 @@ namespace GDLibrary.Managers
                 case EventActionType.OnReset:
                     Add(eventData.Parameters[0] as DrawnActor2D);
                     break;
+
+                case EventActionType.OnHealthDelta:
+                    Add(eventData.Parameters[0] as DrawnActor2D);
+                    break;
             }
 
             //remember to pass the eventData down so the parent class can process pause/unpause

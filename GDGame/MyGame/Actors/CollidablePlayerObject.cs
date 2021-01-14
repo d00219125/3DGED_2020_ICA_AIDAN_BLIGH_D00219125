@@ -234,6 +234,9 @@ namespace GDLibrary.MyGame
                 object[] parameters = { "youLoseMenu" };
                 EventDispatcher.Publish(new EventData(EventCategoryType.Menu,
                     EventActionType.OnLose, parameters));
+                object[] parameters2 = { "lose" };
+                EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
+                    EventActionType.OnPlay2D, parameters2));
                 isPlayerPaused = true;
             }
         }
