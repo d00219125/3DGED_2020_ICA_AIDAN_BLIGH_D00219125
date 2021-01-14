@@ -192,6 +192,7 @@ namespace GDGame
 
             //ui
             textureDictionary.Load("Assets/Textures/UI/Controls/progress_white");
+            
 
             //props
             textureDictionary.Load("Assets/Textures/Props/Crates/crate1");
@@ -203,7 +204,9 @@ namespace GDGame
             textureDictionary.Load("Assets/Textures/UI/Backgrounds/controlsmenu");
             textureDictionary.Load("Assets/Textures/UI/Backgrounds/exitmenu");
             textureDictionary.Load("Assets/Textures/UI/Backgrounds/exitmenuwithtrans");
-
+            textureDictionary.Load("Assets/Textures/UI/Backgrounds/youWinMenu");
+            textureDictionary.Load("Assets/Textures/UI/Backgrounds/youLoseMenu");
+            textureDictionary.Load("Assets/Textures/UI/Controls/progress_white");
             //ui
             textureDictionary.Load("Assets/Textures/UI/Controls/reticuleDefault");
 
@@ -370,7 +373,7 @@ namespace GDGame
             spriteFont = Content.Load<SpriteFont>("Assets/Fonts/debug");
 
             //calculate how big the text is in (w,h)
-            string text = "Hello World!!!";
+            string text = "Lives III";
             Vector2 originalDimensions = spriteFont.MeasureString(text);
 
             transform2D = new Transform2D(new Vector2(512, 768 - (originalDimensions.Y * 4)),
@@ -379,7 +382,7 @@ namespace GDGame
                 new Vector2(originalDimensions.X / 2, originalDimensions.Y / 2), //this is text???
                 new Integer2(originalDimensions)); //accurate original dimensions
 
-            UITextObject uiTextObject = new UITextObject("hello", ActorType.UIText,
+            UITextObject uiTextObject = new UITextObject("Life Count", ActorType.UIText,
                 StatusType.Update | StatusType.Drawn, transform2D, new Color(0.1f, 0, 0, 1),
                 0, SpriteEffects.None, text, spriteFont);
 
@@ -480,7 +483,161 @@ namespace GDGame
         {
             eventDispatcher = new EventDispatcher(this);
             Components.Add(eventDispatcher);
+            EventDispatcher.Subscribe(EventCategoryType.Menu, EventHandler);
         }
+
+        #region Event Handler
+
+        public void EventHandler(EventData eventData)
+        {
+            if (eventData.EventCategoryType == EventCategoryType.Menu)
+            {
+                if (eventData.EventActionType == EventActionType.OnWin)
+                {
+                    EventDispatcher.Publish(eventData);
+                    //InitMenu();
+                    //menuManager.SetScene("main");
+                    InitWinScreen();
+                }
+                if (eventData.EventActionType == EventActionType.OnLose) 
+                {
+                    InitLoseScreen();
+                }
+            }
+        }
+
+        private void InitLoseScreen()
+        {
+            Texture2D texture = null;
+            Transform2D transform2D = null;
+            DrawnActor2D uiObject = null;
+            Vector2 fullScreenScaleFactor = Vector2.One;
+
+            #region All Menu Background Images
+            //background main
+            texture = textureDictionary["youLoseMenu"];
+            fullScreenScaleFactor = new Vector2((float)_graphics.PreferredBackBufferWidth / texture.Width, (float)_graphics.PreferredBackBufferHeight / texture.Height);
+
+            transform2D = new Transform2D(fullScreenScaleFactor);
+            uiObject = new UITextureObject("youLoseMenu", ActorType.UITextureObject, StatusType.Drawn,
+                transform2D, Color.LightGreen, 1, SpriteEffects.None, texture,
+                new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height));
+            menuManager.Add("endscreen", uiObject);
+
+            //background controls
+            texture = textureDictionary["youLoseMenu"];
+            fullScreenScaleFactor = new Vector2((float)_graphics.PreferredBackBufferWidth / texture.Width, (float)_graphics.PreferredBackBufferHeight / texture.Height);
+            transform2D = new Transform2D(fullScreenScaleFactor);
+            uiObject = new UITextureObject("controls_bckgnd", ActorType.UITextureObject, StatusType.Drawn,
+                transform2D, Color.White, 1, SpriteEffects.None, texture, new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height));
+            menuManager.Add("endscreen", uiObject);
+
+            //background exit
+            texture = textureDictionary["youLoseMenu"];
+            fullScreenScaleFactor = new Vector2((float)_graphics.PreferredBackBufferWidth / texture.Width, (float)_graphics.PreferredBackBufferHeight / texture.Height);
+            transform2D = new Transform2D(fullScreenScaleFactor);
+            uiObject = new UITextureObject("exit_bckgnd", ActorType.UITextureObject, StatusType.Drawn,
+                transform2D, Color.White, 1, SpriteEffects.None, texture, new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height));
+            menuManager.Add("loseScreen", uiObject);
+            #endregion All Menu Background Images
+
+            //main menu buttons
+            texture = textureDictionary["genericbtn"];
+
+            Vector2 origin = new Vector2(texture.Width / 2, texture.Height / 2);
+
+            Integer2 imageDimensions = new Integer2(texture.Width, texture.Height);
+
+            //exit
+            transform2D = new Transform2D(screenCentre + new Vector2(0, 50), 0, Vector2.One, origin, imageDimensions);
+            uiObject = new UIButtonObject("exit", ActorType.UITextureObject,
+                StatusType.Update | StatusType.Drawn,
+             transform2D, Color.White, 1, SpriteEffects.None, texture,
+             new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height),
+             "Exit",
+             fontDictionary["menu"],
+             new Vector2(1, 1),
+             Color.Blue,
+             new Vector2(0, 0));
+
+            uiObject.ControllerList.Add(new UIMouseOverController("moc1", ControllerType.MouseOver,
+                 mouseManager, Color.Red, Color.White));
+
+            uiObject.ControllerList.Add(new UIScaleLerpController("slc1", ControllerType.ScaleLerpOverTime,
+              mouseManager, new TrigonometricParameters(0.02f, 1, 0)));
+
+            menuManager.Add("loseScreen", uiObject);
+
+            //finally dont forget to SetScene to say which menu should be drawn/updated!
+            menuManager.SetScene("loseScreen");
+        }
+
+        private void InitWinScreen()
+        {
+            Texture2D texture = null;
+            Transform2D transform2D = null;
+            DrawnActor2D uiObject = null;
+            Vector2 fullScreenScaleFactor = Vector2.One;
+
+            #region All Menu Background Images
+            //background main
+            texture = textureDictionary["youWinMenu"];
+            fullScreenScaleFactor = new Vector2((float)_graphics.PreferredBackBufferWidth / texture.Width, (float)_graphics.PreferredBackBufferHeight / texture.Height);
+
+            transform2D = new Transform2D(fullScreenScaleFactor);
+            uiObject = new UITextureObject("main_bckgnd", ActorType.UITextureObject, StatusType.Drawn,
+                transform2D, Color.LightGreen, 1, SpriteEffects.None, texture,
+                new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height));
+            menuManager.Add("endscreen", uiObject);
+
+            //background controls
+            texture = textureDictionary["controlsmenu"];
+            fullScreenScaleFactor = new Vector2((float)_graphics.PreferredBackBufferWidth / texture.Width, (float)_graphics.PreferredBackBufferHeight / texture.Height);
+            transform2D = new Transform2D(fullScreenScaleFactor);
+            uiObject = new UITextureObject("controls_bckgnd", ActorType.UITextureObject, StatusType.Drawn,
+                transform2D, Color.White, 1, SpriteEffects.None, texture, new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height));
+            menuManager.Add("endscreen", uiObject);
+
+            //background exit
+            texture = textureDictionary["youWinMenu"];
+            fullScreenScaleFactor = new Vector2((float)_graphics.PreferredBackBufferWidth / texture.Width, (float)_graphics.PreferredBackBufferHeight / texture.Height);
+            transform2D = new Transform2D(fullScreenScaleFactor);
+            uiObject = new UITextureObject("exit_bckgnd", ActorType.UITextureObject, StatusType.Drawn,
+                transform2D, Color.White, 1, SpriteEffects.None, texture, new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height));
+            menuManager.Add("endscreen", uiObject);
+            #endregion All Menu Background Images
+
+            //main menu buttons
+            texture = textureDictionary["genericbtn"];
+
+            Vector2 origin = new Vector2(texture.Width / 2, texture.Height / 2);
+
+            Integer2 imageDimensions = new Integer2(texture.Width, texture.Height);
+
+            //exit
+            transform2D = new Transform2D(screenCentre + new Vector2(0, 50), 0, Vector2.One, origin, imageDimensions);
+            uiObject = new UIButtonObject("exit", ActorType.UITextureObject,
+                StatusType.Update | StatusType.Drawn,
+             transform2D, Color.White, 1, SpriteEffects.None, texture,
+             new Microsoft.Xna.Framework.Rectangle(0, 0, texture.Width, texture.Height),
+             "Exit",
+             fontDictionary["menu"],
+             new Vector2(1, 1),
+             Color.Blue,
+             new Vector2(0, 0));
+
+            uiObject.ControllerList.Add(new UIMouseOverController("moc1", ControllerType.MouseOver,
+                 mouseManager, Color.Red, Color.White));
+
+            uiObject.ControllerList.Add(new UIScaleLerpController("slc1", ControllerType.ScaleLerpOverTime,
+              mouseManager, new TrigonometricParameters(0.02f, 1, 0)));
+
+            menuManager.Add("endscreen", uiObject);
+
+            //finally dont forget to SetScene to say which menu should be drawn/updated!
+            menuManager.SetScene("endscreen");
+        }
+        #endregion Event Handler
 
         private void InitCurves()
         {
@@ -1047,9 +1204,9 @@ namespace GDGame
             objectManager.Add(HexObject11);
 
             transform3D =
-        new Transform3D(new Vector3(295, 1, -274), Vector3.Zero, new Vector3(10, 10, 10), -Vector3.UnitZ, Vector3.UnitY);
+        new Transform3D(new Vector3(295, 1, -274), Vector3.Zero, new Vector3(30, 30, 30), -Vector3.UnitZ, Vector3.UnitY);
             collisionBox =
-                new Transform3D(transform3D.Translation, Vector3.Zero, new Vector3(20, 1, 10), -Vector3.UnitZ, Vector3.UnitY);
+                new Transform3D(transform3D.Translation, Vector3.Zero, new Vector3(55, 1, 35), -Vector3.UnitZ, Vector3.UnitY);
             collisionPrimitive = new BoxCollisionPrimitive(collisionBox);
             CollidablePrimitiveObject HexObject12 = new CollidablePrimitiveObject("enemy Hex", ActorType.NPC, StatusType.Drawn
                 | StatusType.Update, transform3D, effectParameters, vertexData, collisionPrimitive, objectManager);
@@ -1194,6 +1351,13 @@ namespace GDGame
             CollidableEnemyPyramidObject pyramidObject6 = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | StatusType.Update,
                 transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1f, 20f);
             objectManager.Add(pyramidObject6);
+
+            transform3D =
+              new Transform3D(new Vector3(245, 0, -400), Vector3.Zero, new Vector3(15, 16, 15), -Vector3.UnitZ, Vector3.UnitY);
+            collisionPrimitive = new BoxCollisionPrimitive(transform3D);
+            CollidableEnemyPyramidObject pyramidObject7 = new CollidableEnemyPyramidObject("enemy_pyramid", ActorType.NPC, StatusType.Drawn | StatusType.Update,
+                transform3D, effectParameters, vertexData, collisionPrimitive, objectManager, 1f, 30f);
+            objectManager.Add(pyramidObject7);
             #endregion level 2 pyramids
         }
 
@@ -1227,6 +1391,7 @@ namespace GDGame
             //make a CDCR surface - sphere or box, its up to you - you dont need to pass transform to either primitive anymore
             collisionPrimitive = new SphereCollisionPrimitive(transform3D, 1);
 
+            int lives = 3;
             //if we make this a field then we can pass to the 3rd person camera controller
             collidablePlayerObject
                 = new CollidablePlayerObject("collidable player1",
@@ -1241,7 +1406,9 @@ namespace GDGame
                     GameConstants.KeysOne,
                     GameConstants.playerMoveSpeed,
                     GameConstants.playerStrafeSpeed,
-                    keyboardManager);
+                    keyboardManager,
+                    cameraManager,
+                    lives);
 
             objectManager.Add(collidablePlayerObject);
         }
@@ -1259,6 +1426,19 @@ namespace GDGame
             collisionPrimitive = new BoxCollisionPrimitive(transform3D);
 
             collidableZoneObject = new CollidableZoneObject("finish line 1", ActorType.CollidableZone,
+                StatusType.Drawn | StatusType.Update,
+                transform3D,
+                collisionPrimitive);
+
+            objectManager.Add(collidableZoneObject);
+
+            transform3D = new Transform3D(new Vector3(265, 4, -470),
+                Vector3.Zero, new Vector3(130, 8, 40), Vector3.UnitZ, Vector3.UnitY);
+
+            //make the collision primitive - changed slightly to no longer need transform
+            collisionPrimitive = new BoxCollisionPrimitive(transform3D);
+
+            collidableZoneObject = new CollidableZoneObject("finish line 2", ActorType.CollidableZone,
                 StatusType.Drawn | StatusType.Update,
                 transform3D,
                 collisionPrimitive);
@@ -1699,7 +1879,7 @@ namespace GDGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             base.Draw(gameTime);
         }
-
         #endregion Update & Draw
+
     }
 }

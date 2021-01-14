@@ -28,6 +28,17 @@ namespace GDGame.MyGame.Managers
                     this.StatusType = StatusType.Drawn | StatusType.Update;
                 else if (eventData.EventActionType == EventActionType.OnPlay)
                     this.StatusType = StatusType.Off;
+                else if (eventData.EventActionType == EventActionType.OnWin)
+                {
+                    this.StatusType = StatusType.Drawn | StatusType.Update;
+                    this.SetScene("endscreen");
+
+                }
+                else if (eventData.EventActionType == EventActionType.OnLose) 
+                {
+                    this.StatusType = StatusType.Drawn | StatusType.Update;
+                    this.SetScene("loseScreen");
+                }
             }
         }
 

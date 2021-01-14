@@ -23,12 +23,14 @@ namespace GDLibrary.MyGame
         private KeyboardManager keyboardManager;
         private Keys[] moveKeys;
         double restTime;
+        int lives;
+        CameraManager<Camera3D> cameraManager;
         #endregion Fields
 
         public CollidablePlayerObject(string id, ActorType actorType, StatusType statusType, Transform3D transform,
             EffectParameters effectParameters, IVertexData vertexData,
             ICollisionPrimitive collisionPrimitive, ObjectManager objectManager,
-            Keys[] moveKeys, float moveSpeed, float strafeSpeed, KeyboardManager keyboardManager)
+            Keys[] moveKeys, float moveSpeed, float strafeSpeed, KeyboardManager keyboardManager, CameraManager<Camera3D> cameraManager, int lives)
             : base(id, actorType, statusType, transform, effectParameters, vertexData, collisionPrimitive, objectManager)
         {
             this.moveKeys = moveKeys;
@@ -42,13 +44,16 @@ namespace GDLibrary.MyGame
             this.isOnLevel1 = true;
             this.isPlayerPaused = true;
             this.coolingDown = false;
+            this.cameraManager = cameraManager;
+            this.lives = lives;
         }
 
         public override void Update(GameTime gameTime)
         {
             // if (gameTime.ElapsedGameTime.TotalSeconds > 12) { }
-            if (gameTime.TotalGameTime.TotalSeconds > 15 && isOnLevel1)
+            if (gameTime.TotalGameTime.TotalSeconds > 15 && isOnLevel1 && isPlayerPaused)
             {
+                cameraManager.ActiveCameraIndex++;
                 this.isPlayerPaused = false;
             }
             if (!isOnLevel1 && isPlayerPaused && !coolingDown) 
@@ -95,21 +100,7 @@ namespace GDLibrary.MyGame
                 Transform3D.TranslateIncrement
                     = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
                             * moveSpeed;
-            //if (keyboardManager.IsKeyDown(moveKeys[0])) //Forward
-            //{
-            //    Transform3D.TranslateIncrement
-            //        = Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-            //                * moveSpeed;
-            //}
 
-            //else if (keyboardManager.IsKeyDown(moveKeys[1])) //Backward
-            //{
-            //    Transform3D.TranslateIncrement
-            //       = -Transform3D.Look * gameTime.ElapsedGameTime.Milliseconds
-            //               * moveSpeed;
-            //}
-
-           
                 if (keyboardManager.IsKeyDown(moveKeys[2])) //Left
             {
                 Transform3D.TranslateIncrement +=
@@ -183,6 +174,13 @@ namespace GDLibrary.MyGame
                     object[] parameters = { "win" };
                     EventDispatcher.Publish(new EventData(EventCategoryType.Sound,
                         EventActionType.OnPlay2D, parameters));
+
+                    object[] parameters2 = { "youWinMenu" };
+                    EventDispatcher.Publish(new EventData(EventCategoryType.Menu,
+                        EventActionType.OnWin, parameters2));
+
+                    isPlayerPaused = true;
+                    Transform3D.Translation = new Vector3(0, 0, 0);
                 }
                 //IMPORTANT - setting this to null means that the ApplyInput() method will get called and the player can move through the zone.
                 Collidee = null;
@@ -221,7 +219,7 @@ namespace GDLibrary.MyGame
         }
         private void respawn() 
         {
-
+            lives--;
             if (isOnLevel1)
             {
                 Transform3D.Translation = GameConstants.playerLevel1StartPos;
@@ -229,6 +227,14 @@ namespace GDLibrary.MyGame
             else 
             {
                 Transform3D.Translation = GameConstants.playerLevel2StartPos;
+            }
+            if (lives < 1) 
+            {
+                Transform3D.Translation = new Vector3(0,0,0);
+                object[] parameters = { "youLoseMenu" };
+                EventDispatcher.Publish(new EventData(EventCategoryType.Menu,
+                    EventActionType.OnLose, parameters));
+                isPlayerPaused = true;
             }
         }
     }
